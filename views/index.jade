@@ -1,0 +1,188 @@
+extends layout
+block head
+    link(rel='stylesheet', href="/stylesheets/index.css")
+    link(rel='stylesheet', href="/bower_components/font-awesome/css/font-awesome.min.css")
+        
+block content
+
+
+    
+    .modal.fade.rooms-modal(tabindex='-1', role='dialog', aria-labelledby='gridSystemModalLabel')
+      .modal-dialog(role='document')
+        .modal-content
+          .modal-header
+            button.close(type='button', data-dismiss='modal', aria-label='Close')
+              span(aria-hidden='true') ×
+            h4#gridSystemModalLabel.modal-title Available Rooms
+          .modal-body
+            ul(data-bind="foreach: rooms")
+                li
+                    span Room 1 ( 
+                    span(data-bind="text: numUsers")             
+                    span  users online) - 
+                    a(data-bind="click: $root.joinRoom", href="#") Join  
+          .modal-footer
+            button.btn.btn-default(type='button', data-dismiss='modal') Close
+            //button.btn.btn-primary(type='button') Join
+
+
+    .container-fluid
+        
+        .row(style="background-color:#F3F3F3")
+            .col-md-3.col-md-offset-5
+                .logo
+                    img.img-responsive.center-block(src="/images/logo128x128.png")
+                    h3.center-block.text-center wetalki
+                    h5.center-block.text-center Practice any language, anytime, anywhere!
+                    
+                    if error != null
+                        .alert.alert-warning(role="alert") #{error}
+
+                
+                            
+                
+            .col-md-4(style="text-align: right;")
+                #numUsersOnline
+                    strong(data-bind="text: numUsersOnline")
+                    spam.
+                         online now
+             br
+        
+        
+        .row#teste
+            //(style="background-color: #3B3D3F;color: #ECECEC;")
+            .col-md-3.col-md-offset-1
+                div.text-center
+                    i.fa.fa-wechat.fa-5x
+                h3.text-center Talk One to One
+                form(action="/", method="post")
+                    form-group
+                        select.form-control.input-lg(name="lang")
+                            option(value="") Select the language                        
+                            option(value="en") English
+                            option(value="pt") Portuguese
+                            option(value="sp") Spanish
+                            option(value="fr") French
+                            option(value="ge") German
+                            option(value="it") Italian
+                            option(value="ch") Chinese
+                            option(value="ja") Japonese
+                            option(value="ko") Korean
+                            option(value="ru") Russian
+                            option(value="ar") Arabic
+                            option(value="la") Latin
+                            option(value="hi") Hindi
+                    br
+                    input.btn.btn-primary.btn-lg.center-block(type="submit",value="Let's Talk")
+                br
+                br
+            .col-md-3.col-md-offset-1
+                div.text-center
+                    i.fa.fa-group.fa-5x
+                h3.text-center Talk In Groups
+            
+                form-group
+                    select.form-control.input-lg(name="lang")
+                        option(value="") Select the language                        
+                        option(value="en") English
+                        option(value="pt") Portuguese
+                        option(value="sp") Spanish
+                        option(value="fr") French
+                        option(value="ge") German
+                        option(value="it") Italian
+                        option(value="ch") Chinese
+                        option(value="ja") Japonese
+                        option(value="ko") Korean
+                        option(value="ru") Russian
+                        option(value="ar") Arabic
+                        option(value="la") Latin
+                        option(value="hi") Hindi
+                br
+                form-group
+                    select.form-control.input-lg(name="topic")
+                        option(value="") Choose a topic                        
+                        option(value="en") Free
+                        option(value="pt") Politics
+                        option(value="sp") Sports
+                        option(value="fr") Movies
+                        option(value="ge") Music
+                        option(value="it") Travel
+                br
+                input.btn.btn-success.btn-lg.center-block(type="button",value="Join a room",data-toggle='modal', data-target='.rooms-modal',data-bind="click: listRooms")
+                            
+            .col-md-3.col-md-offset-1
+                div.text-center
+                    i.fa.fa-headphones.fa-5x
+                h3.text-center Talk with Audio
+        br
+        .container.marketing
+            .row
+                .col-lg-4
+                    div.features-box-icon
+                        i.fa.fa-thumbs-o-up
+
+                    h2 Simplicity
+                    p.
+                        No Sign Up or Registration needed to Chat. We know your time is valuable. It's simple & crafted with love.
+                    
+                .col-lg-4
+                    div.features-box-icon
+                        i.fa.fa-mobile
+                
+                    h2 Mobile-Friendly
+                    p.
+                        Got iPhone, Android or Tablet? No problem! Chat smoothly on all platforms.
+                    
+                // /.col-lg-4
+                .col-lg-4
+                    div.features-box-icon
+                        i.fa.fa-globe                    
+                    h2 Freedom
+                    p.
+                        Talk with people from all over the world & discuss about any topic that matters to you. As more you practice, the more you will improve.
+             
+   
+     p.text-center
+            script(async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js")
+            <!-- wetalki home -->
+            ins.adsbygoogle(
+            style="display:inline-block;width:728px;height:90px"
+            data-ad-client="ca-pub-8215940757054585"
+            data-ad-slot="5244486154")
+            script.
+                (adsbygoogle = window.adsbygoogle || []).push({});
+    
+
+    footer.footer
+      .container
+        .row
+          .col-sm-12.footer-social
+            a(target='new_blank', href='https://www.facebook.com/Wetalki-Languages-1094680307255625/')
+              i.fa.fa-facebook
+        br
+        .row
+          .col-sm-12.footer-copyright
+            | © 2016 Wetalki, Inc.
+        .row(style= "margin:0;")
+                p.text-center.
+                    By using the Wetalki Web site, and/or related products and/or services ("Wetalki", provided by Wetalki.com), you agree to the <a href="/termsofservice.html">terms of service</a>.
+            
+       
+    
+      
+      
+
+block scripts
+    script(src="/javascripts/socket.io-1.4.5.js")
+    script(src="/javascripts/index.js")
+    script.        
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-75676304-1', 'auto');
+        ga('send', 'pageview');      
+    
+
+    

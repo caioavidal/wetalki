@@ -1,0 +1,121 @@
+ body {
+     color: #5a5a5a;
+ }
+ .marketing .col-lg-4 {
+     margin-bottom: 20px;
+     text-align: center;
+ }
+ .marketing h2 {
+     font-weight: normal;
+ }
+ .marketing .col-lg-4 p {
+     margin-right: 10px;
+     margin-left: 10px;
+ }
+ .logo {
+     padding-top: 30px;
+     margin-bottom: 60px;
+     color: #737373;
+     font-family: verdana;
+ }
+ body,
+ html {
+     height: 100%;
+ }
+ #numUsersOnline {
+     font-family: 'Trebuchet MS', 'Gill Sans', sans-serif;
+     font-size: 1.5em;
+     color: #9cf;
+ }
+ #numUsersOnline strong {
+     font-size: 1.3333333333333333333333em;
+     color: #6cb5ff;
+ }
+ .features-box-icon {
+     width: 120px;
+     height: 120px;
+     margin: 0 auto;
+     background: #EEEEEE;
+     font-size: 60px;
+     color: black;
+     line-height: 120px;
+     -moz-border-radius: 50%;
+     -webkit-border-radius: 50%;
+     border-radius: 50%;
+     -o-transition: all .6s;
+     -moz-transition: all .6s;
+     -webkit-transition: all .6s;
+     -ms-transition: all .6s;
+     transition: all .6s;
+     text-align: center;
+ }
+ .footer-social {
+     font-size: 42px;
+     line-height: 42px;
+ }
+ .footer-social a {
+     display: inline-block;
+     width: 48px;
+     height: 48px;
+     margin: 0px 5px;
+     padding-top: 3px;
+     background: #4965B5;
+     -moz-border-radius: 50%;
+     -webkit-border-radius: 50%;
+     border-radius: 50%;
+     font-size: 25px;
+     color: #fff;
+     line-height: 39px;
+     text-align: center;
+ }
+ .footer-social a i {
+     vertical-align: middle;
+ }
+ .footer-social a:hover {
+     background: #0337AC;
+ }
+ /* -------------- */
+ 
+ @media screen and (min-width: 768px) {
+     .header,
+     .marketing,
+     .footer {
+         padding-right: 0;
+         padding-left: 0;
+     }
+ }
+ .footer {
+     padding-top: 19px;
+     color: #777;
+     border-top: 1px solid #e5e5e5;
+ }
+ .header,
+ .marketing,
+ .footer {
+     padding-right: 15px;
+     padding-left: 15px;
+ }
+ .features-container,
+ footer {
+     /* font-family: 'Roboto', sans-serif; */
+     /* color: #888; */
+     
+     line-height: 30px;
+     text-align: center;
+ }
+ footer {
+     padding: 10px 0;
+     background-color: #f8f8f8;
+     position: relative;
+ }
+ 
+ #teste{
+ background: url(https://secure.surveymonkey.com/wp-content/themes/survey-monkey-theme/images/seamless-noise-bg.png),radial-gradient(circle at bottom center,#789928 0,#668a2a 100%);
+ background-color: #688c2b;
+ }
+ 
+ #teste{
+         color: #fff;
+    height: 380px;
+    padding-top: 60px;
+ }
