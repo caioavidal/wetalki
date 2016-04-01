@@ -6,8 +6,11 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
-var routes = require('./routes/index');
+var routes = require('./routes');
+var index = require('./routes/index');
 var chat = require('./routes/chat');
+var api = require('./routes/api');
+
 
 var app = express();
 
@@ -29,8 +32,12 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/bower_components', express.static(path.join(__dirname , 'bower_components')));
 
-app.use('/', routes);
-app.use('/chat', chat);
+app.use('/', index);
+//app.use('/chat', chat);
+app.get('/api/laguanges', api.languages);
+app.get('/partials/:name', routes.partials);
+
+app.get('*', routes.index);
 
 
 

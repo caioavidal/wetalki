@@ -1,0 +1,43 @@
+link(rel="stylesheet",href="/stylesheets/three-dots-animation.css")
+link(rel="stylesheet",href="/stylesheets/chat.css")
+    
+input#lang(type="hidden",value= lang)
+.fullscreen
+    
+        #topBar
+            .nav.navbar.navbar-default.remove-padding-margin
+                .logo
+                    img.img-responsive.img-circle(src="/images/logo32x32.png")
+                    span wetalki    
+
+        #mainContainer
+            .col-md-10.remove-padding-margin
+                #chatMessages
+                    #waiting
+                        p.loading Looking for someone<span>.</span><span>.</span><span>.</span>
+                        h5 You're about to connect to a stranger who also want to practice...
+                        h5 It may take a little while to find someone with common language interests...
+                    #messagesBox
+                        #title
+                            p#connectedMessage You're now chatting with a random stranger who wants to speak the same language as you. Let's go practice!
+                            
+                        #messages
+                        
+                        p#chooseAnotherLanguage Click <a href="/">here</a> if you want to practice another language
+                        
+                #inputMessageBox
+                    button#exitButton.btn.btn-danger.col-md-2.col-xs-2 Exit
+                    button#newPartnerButton.btn.btn-success.col-md-2.col-xs-2 New Partner
+                    .col-md-8.col-xs-8.form-group
+                        textarea#inputMessage.form-control(type="text", placeholder="Type your message here...")
+                    button#sendButton.btn.btn-primary.col-md-2.col-xs-2(disabled="disabled") Send (or press enter)
+            .col-md-2
+                script(async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js")
+                ins.adsbygoogle(
+                    style="display:block"
+                    data-ad-client="ca-pub-8215940757054585"
+                    data-ad-slot="2220627754"
+                    data-ad-format="auto")
+                script.
+                    (adsbygoogle = window.adsbygoogle || []).push({});
+
