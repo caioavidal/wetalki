@@ -109,13 +109,10 @@
      position: relative;
  }
  
- #teste{
- background: url(https://secure.surveymonkey.com/wp-content/themes/survey-monkey-theme/images/seamless-noise-bg.png),radial-gradient(circle at bottom center,#789928 0,#668a2a 100%);
+ #features{
+ background: url(/images/seamless-noise-bg.png),radial-gradient(circle at bottom center,#789928 0,#668a2a 100%);
  background-color: #688c2b;
- }
- 
- #teste{
-         color: #fff;
-    height: 380px;
+     color: #fff;
+    height: auto;
     padding-top: 60px;
  }

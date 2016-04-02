@@ -32,20 +32,8 @@ var clients = io.sockets.sockets;
 var rooms = io.sockets.adapter.rooms;
 
 
-// var rooms = [
-//     {
-//         lang:'en',
-//         topic:'politics',
-//         rooms:[
-//             {
-//                 roomId: "en-politics-1"
-//             }
-//         ]
-//     }
-// ]
 
-
-io.on('connection', function(socket, io) {
+io.on('connection', function(socket) {
 
     console.log('user connected: ' + socket.id);
 
@@ -57,7 +45,7 @@ io.on('connection', function(socket, io) {
     socket.on("forceDisconnect", function() {
         socket.emit("disconnected", false);
         socket.disconnect();
-    })
+    });
 
     socket.on('disconnect', function() {
         console.log('user disconnected: ' + socket.id);
@@ -68,22 +56,58 @@ io.on('connection', function(socket, io) {
 
 
     });
-     socket.on("joinRoom", function(roomName) {
-         socket.join(roomName); //validar se o nome é valido
-         var room = rooms[roomName];
-         room.isRoom = true;
-         room.lang = 'en';
-         room.topic = 'politics';
-         
-     });
+
+    socket.on('joinRoom', function(data) {
+
+        var username = data.username.trim();
+        var roomName = data.room.trim();
+        var room = rooms[roomName]
+
+        //todo: botar validação do username
+        if (username.length < 3) {
+            socket.emit("roomError", "Your username must have at least 3 characters");
+            return false;
+        }
+
+        if (room != null) {
+
+            var jsonString = '{ "username": "' + username + '", "rooms": { "' + roomName + '" : "' + roomName + '"} }';
+            var socketFound = _.findKey(clients, JSON.parse(jsonString));
+            if (socketFound != null) { //Already exists a username
+                socket.emit("roomError", "Your username is in use by another user");
+                return false;
+
+            }
+        }
+
+        socket.username = username;
+        socket.join(roomName);
+        socket.room = roomName;
+        
+        var roomOnlineUsers = [];
+        if(room != null){
+            
+            var socketsIds = _.keys(room.sockets);
+            _.forEach(socketsIds, function(value){
+                roomOnlineUsers.push(clients[value].username);
+            });
+        }else{
+            roomOnlineUsers.push(username);
+        }
+        
+        
+        
+        io.in(roomName).emit("joinned", { username, roomOnlineUsers});
+
+    });
 
     socket.on("listRooms", function(data) {
         var lang = data.lang;
         var topic = data.topic;
 
         var existingRooms = _.filter(rooms, { 'isRoom': true, 'lang': lang, 'topic': topic });
-        
-        if(existingRooms == null){
+
+        if (existingRooms == null) {
             existingRooms = [];
         }
 
@@ -102,10 +126,21 @@ io.on('connection', function(socket, io) {
                 });
             }
         }
-        
+
         socket.emit('listRooms', createdRooms);
     });
 
+
+    socket.on('roomMessage', function(msg) {
+
+        if (msg.trim() === "") {
+            return;
+        }
+
+        
+        io.in(socket.room).emit('roomMessage', {username:socket.username,
+             msg: msg});
+    });
     socket.on('message', function(msg) {
 
         if (msg.trim() === "") {

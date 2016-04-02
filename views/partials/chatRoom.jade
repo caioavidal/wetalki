@@ -1,0 +1,99 @@
+block head
+    link(rel="stylesheet",href="/stylesheets/three-dots-animation.css")
+    link(rel="stylesheet",href="/stylesheets/chatRoom.css")
+    link(rel="stylesheet",href="/bower_components/mobile-angular-ui/dist/css/mobile-angular-ui-hover.css")
+    link(rel="stylesheet",href="/bower_components/mobile-angular-ui/dist/css/mobile-angular-ui-base.css")
+    link(rel="stylesheet",href="/bower_components/mobile-angular-ui/dist/css/mobile-angular-ui-desktop.css")
+
+.modal.fade.in.username-modal(tabindex='-1', role='dialog', aria-labelledby='gridSystemModalLabel',data-ng-if="!ctrl.vm.isConnectedInRoom")
+      .modal-backdrop.in
+      .modal-dialog(role='document')
+        .modal-content
+          .modal-header
+            h4#gridSystemModalLabel.modal-title Enter you username
+          .modal-body
+            input.form-control(type="text", placeholder="Type here your usename",data-ng-model="ctrl.vm.username")  
+          .modal-footer
+            button.btn.btn-success(type='button', data-dismiss='modal', data-ng-click="ctrl.joinRoom(ctrl.vm.username)") Join
+            
+.sidebar.sidebar-left(ui-track-as-search-param='true')       
+ .scrollable
+   .scrollable-content
+     .list-group(ui-turn-off='uiSidebarLeft')
+       a.list-group-item.media(href='', ng-repeat='user in ctrl.vm.roomOnlineUsers')
+         .pull-left
+           i.fa.fa-user.chat-user-avatar
+         .media-body
+           h5.media-heading {{user}}
+           small(ng-switch='', on='true')
+             span(ng-switch-when='true')
+               span.label.label-success ONLINE
+             span(ng-switch-default='')
+              span.label.label-default
+                 i OFFLINE
+.app              
+    .navbar.navbar-app.navbar-absolute-top
+        .navbar-brand.navbar-brand-center(ui-yield-to='title')
+            | Wetalki - Chat Room
+        .btn-group.pull-right
+            .btn(data-ng-click="ctrl.exit()")
+                i.fa.fa-sign-out
+                |  Exit
+    .app-body  
+        .app-content
+            
+            .scrollable
+                .scrollable-content#messageBox
+                    #messageList
+                        div#connectedWithPartnerText(data-ng-if="ctrl.vm.isConnectedInRoom") 
+                            p.text-center You're now chatting on this room!
+                        
+                        #waiting(data-ng-if="ctrl.vm.isWaitingForUsername")
+                            .progress
+                                .progress-bar.progress-bar-success.progress-bar-striped.active(role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%")
+                                span.sr-only Waiting for your username
+                            .waiting-text    
+                                p.loading Waiting for your username<span>.</span><span>.</span><span>.</span>
+                                
+                                .waiting-subtext    
+                                    div You're about to connect to connect to this room, we just need your username...
+                            
+                        .message(data-ng-repeat="message in ctrl.vm.messages track by $index")
+                            span
+                            .div(data-ng-class="{'message-from-partner':message.fromPartner,'message-from-you':!message.fromPartner,'has-disconnected':message.hasDisconnected }")
+                                .message-content
+                                    .message-text
+                                        span.message-pre-text
+                                        span.text.user(data-ng-if="message.from !== ''") {{:: message.from}} 
+                                        span.text {{:: message.message}}   
+                                        span.sad(data-ng-if="message.hasDisconnected") :(
+                                    .message-meta
+                                        span.time
+                                
+                                
+                            
+                            
+                .scrollable-footer
+                    .row(style="padding:0 5px 0 5px")
+                        .col-md-10.col-xs-9       
+                                textarea#inputMessage.form-control(ng-disabled = "!ctrl.vm.isConnectedInRoom", placeholder="Type your message here...",data-ng-model="ctrl.vm.message", data-ng-keydown="ctrl.onKeyDown($event)")
+                        .col-md-2.col-xs-3
+                            button.btn.btn-primary.btn-lg.btn-block(ng-disabled = "!ctrl.vm.isConnectedInRoom", data-ng-click="ctrl.sendMessage(ctrl.vm.message)")
+                                i.fa.fa-send-o
+                            //Send (or press enter)
+                        
+                        //button.btn.btn-danger.btn-lg.btn-block Exit
+                        
+
+
+
+
+
+
+    
+
+
+    
+          
+
+

@@ -1,0 +1,129 @@
+[
+    {
+        "topic": "politics",
+        "rooms": [
+            {
+                "room": "politics-1",
+                "name": "Room 1"
+            },
+            {
+                "room": "politics-2",
+                "name": "Room 2"
+            },
+            {
+                "room": "politics-3",
+                "name": "Room 3"
+            }
+        ]
+    },
+    {
+        "topic": "free",
+        "rooms": [
+            {
+                "room": "free-1",
+                "name": "Room 1"
+            },
+            {
+                "room": "free-2",
+                "name": "Room 2"
+            },
+            {
+                "room": "free-3",
+                "name": "Room 3"
+            },
+            {
+                "room": "free-3",
+                "name": "Room 4"
+            },
+            {
+                "room": "free-3",
+                "name": "Room 5"
+            }
+        ]
+    },
+    {
+        "topic": "sports",
+        "rooms": [
+            {
+                "room": "sports-1",
+                "name": "Room 1"
+            },
+            {
+                "room": "sports-2",
+                "name": "Room 2"
+            },
+            {
+                "room": "sports-3",
+                "name": "Room 3"
+            }
+        ]
+    },
+    {
+        "topic": "movies",
+        "rooms": [
+            {
+                "room": "movies-1",
+                "name": "Room 1"
+            },
+            {
+                "room": "movies-2",
+                "name": "Room 2"
+            },
+            {
+                "room": "movies-3",
+                "name": "Room 3"
+            }
+        ]
+    },
+    {
+        "topic": "music",
+        "rooms": [
+            {
+                "room": "music-1",
+                "name": "Room 1"
+            },
+            {
+                "room": "music-2",
+                "name": "Room 2"
+            },
+            {
+                "room": "music-3",
+                "name": "Room 3"
+            }
+        ]
+    },
+    {
+        "topic": "travel",
+        "rooms": [
+            {
+                "room": "travel-1",
+                "name": "Room 1"
+            },
+            {
+                "room": "travel-2",
+                "name": "Room 2"
+            },
+            {
+                "room": "travel-3",
+                "name": "Room 3"
+            }
+        ]
+    },
+    {
+        "topic": "jobs",
+        "rooms": [
+            {
+                "room": "jobs-1",
+                "name": "Room 1"
+            },
+            {
+                "room": "jobs-2",
+                "name": "Room 2"
+            },
+            {
+                "room": "jobs-3",
+                "name": "Room 3"
+            }
+        ]
+    }
+]

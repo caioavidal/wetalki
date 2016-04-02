@@ -1,0 +1,12 @@
+.modal.in(ui-if='modalUsername', ui-state='modalUsername')
+    .modal-backdrop.in
+    .modal-dialog
+    .modal-content
+        .modal-header
+        button.close(ui-turn-off='modalUsername') ×
+        h4.modal-title Enter your username
+        .modal-body
+        p {{lorem}}
+        .modal-footer
+        button.btn.btn-default(ui-turn-off='modalUsername') Close
+        button.btn.btn-primary(ui-turn-off='modalUsername') Save changes

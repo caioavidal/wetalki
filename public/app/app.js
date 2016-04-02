@@ -1,4 +1,4 @@
-var app = angular.module("app", ['ngRoute','mobile-angular-ui']);
+var app = angular.module("app", ['ngRoute','mobile-angular-ui','ngLodash']);
 
 app.config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
     $routeProvider.
@@ -10,6 +10,11 @@ app.config(['$routeProvider', '$locationProvider', function($routeProvider, $loc
         when('/chat/:lang', {
             templateUrl: 'partials/chat',
             controller: "ChatController",
+            controllerAs: "ctrl"
+        }).
+        when('/chatroom/:room', {
+            templateUrl: 'partials/chatRoom',
+            controller: "ChatRoomController",
             controllerAs: "ctrl"
         }).
 

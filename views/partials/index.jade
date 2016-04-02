@@ -9,15 +9,15 @@ link(rel='stylesheet', href="/bower_components/font-awesome/css/font-awesome.min
               span(aria-hidden='true') ×
             h4#gridSystemModalLabel.modal-title Available Rooms
           .modal-body
-            ul(data-bind="foreach: rooms")
-                li
-                    span Room 2 ( 
-                    span(data-bind="text: numUsers")             
+            ul
+                li(data-ng-repeat="room in ctrl.vm.availableRooms track by $index")
+                    span {{::room.name}} ( 
+                    span           
                     span  users online) - 
-                    a(data-bind="click: $root.joinRoom", href="#") Join  
+                    a(data-ng-click="ctrl.joinRoom(room.room)", href="" data-dismiss='modal') Join  
           .modal-footer
             button.btn.btn-default(type='button', data-dismiss='modal') Close
-            //button.btn.btn-primary(type='button') Join
+            
 
 
     .container-fluid
@@ -44,9 +44,9 @@ link(rel='stylesheet', href="/bower_components/font-awesome/css/font-awesome.min
              br
         
         
-        .row#teste
+        .row#features
             //(style="background-color: #3B3D3F;color: #ECECEC;")
-            .col-md-3.col-md-offset-1
+            .col-md-3.col-md-offset-1.col-xs-12
                 div.text-center
                     i.fa.fa-wechat.fa-5x
                 h3.text-center Talk One to One
@@ -62,13 +62,13 @@ link(rel='stylesheet', href="/bower_components/font-awesome/css/font-awesome.min
                     input.btn.btn-primary.btn-lg.center-block(type="button",value="Let's Talk", data-ng-click="ctrl.goToOneToOneChatRoom(ctrl.vm.selectedLanguage)")
                 br
                 br
-            .col-md-3.col-md-offset-1
+            .col-md-3.col-md-offset-1.col-xs-12
                 div.text-center
                     i.fa.fa-group.fa-5x
                 h3.text-center Talk In Groups
             
                 form-group
-                    select.form-control.input-lg(name="lang")
+                    select.form-control.input-lg(data-ng-model="ctrl.vm.langCodeGroup")
                         option(value="") Select the language                        
                         option(value="en") English
                         option(value="pt") Portuguese
@@ -85,22 +85,24 @@ link(rel='stylesheet', href="/bower_components/font-awesome/css/font-awesome.min
                         option(value="hi") Hindi
                 br
                 form-group
-                    select.form-control.input-lg(name="topic")
+                    select.form-control.input-lg(data-ng-model="ctrl.vm.topicGroup")
                         option(value="") Choose a topic                        
-                        option(value="en") Free
-                        option(value="pt") Politics
-                        option(value="sp") Sports
-                        option(value="fr") Movies
-                        option(value="ge") Music
-                        option(value="it") Travel
+                        option(value="free") Free
+                        option(value="politics") Politics
+                        option(value="sports") Sports
+                        option(value="movies") Movies
+                        option(value="music") Music
+                        option(value="travel") Travel
+                        option(value="jobs") Jobs
                 br
-                h3.text-center  In Development...
-                //input.btn.btn-success.btn-lg.center-block(type="button",value="Join a room",data-toggle='modal', data-target='.rooms-modal',data-bind="click: listRooms")
-                            
-            .col-md-3.col-md-offset-1
+                //h3.text-center  In Development...
+                input.btn.btn-success.btn-lg.center-block(type="button",value="Join a room",data-toggle='modal', data-target='.rooms-modal',data-ng-click="ctrl.loadRooms(ctrl.vm.langCodeGroup,ctrl.vm.topicGroup)")
+                br          
+            .col-md-3.col-md-offset-1.col-xs-12
                 div.text-center
                     i.fa.fa-headphones.fa-5x
                 h3.text-center Talk with Audio
+                br
                 br
                 h3.text-center  In Development...
         br
