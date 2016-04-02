@@ -147,6 +147,9 @@ span.sad{
     font-weight: bold;
 }
 
+.navbar {
+    border-radius: 0px;
+}
 
 /*MODAL*/
 
@@ -155,4 +158,5 @@ span.sad{
     margin: 0 auto;
     top: 60px;
 }
+
 

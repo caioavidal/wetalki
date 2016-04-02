@@ -150,12 +150,16 @@ app.controller('ChatRoomController', ['$scope', '$location', '$routeParams', fun
     this.joinRoom = function(username) {
 
         if(self.socket == null || self.connect === false){
-            self.socket = io.connect('/', {
+              self.socket = io.connect('/', {
                 'reconnect': true,
                 'reconnection delay': 500,
                 'max reconnection attempts': 10
             });
+            
+             self.registerSocketEvents();
         }
+        
+         
 
         self.socket.emit('joinRoom', {
             username: username,
@@ -167,7 +171,7 @@ app.controller('ChatRoomController', ['$scope', '$location', '$routeParams', fun
         self.vm.isConnectedInRoom = false;
 
 
-        self.registerSocketEvents();
+       
     }
 
 
