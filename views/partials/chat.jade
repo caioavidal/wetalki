@@ -44,14 +44,14 @@ block head
                                     span.sad(data-ng-if="message.hasDisconnected") :(
                                 .message-meta
                                     span.time
-                            //span.user {{:: message.fromPartner ? 'Partner:': 'You:'}} 
+                            
                             
                         
                          
             .scrollable-footer
                 .row(style="padding:0 5px 0 5px")
                     .col-md-10.col-xs-9       
-                            textarea#inputMessage.form-control(placeholder="Type your message here...",data-ng-model="ctrl.vm.message", data-ng-keydown="ctrl.onKeyDown($event)")
+                            textarea#inputMessage.form-control(ng-disabled = "!ctrl.vm.isConnectedWithPartner", placeholder="Type your message here...",data-ng-model="ctrl.vm.message", data-ng-keydown="ctrl.onKeyDown($event)")
                     .col-md-2.col-xs-3
                         button.btn.btn-primary.btn-lg.btn-block(ng-disabled = "!ctrl.vm.isConnectedWithPartner", data-ng-click="ctrl.sendMessage(ctrl.vm.message)")
                             i.fa.fa-send-o

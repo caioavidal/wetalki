@@ -3,6 +3,7 @@ app.controller('ChatController', ['$scope', '$location', '$routeParams', 'Langua
     this.socket;
     this.vm = new ChatViewModel();
     this.lang = $routeParams.lang;
+    
 
 
 
@@ -24,12 +25,16 @@ app.controller('ChatController', ['$scope', '$location', '$routeParams', 'Langua
     }
 
     this.sendMessage = function sendMessage(message) {
-
+        
+        if(this.vm.isWaitingForPartner === true){
+            return;
+        }
+        
         if (message.trim() == "") {
             $("#inputMessage").focus();
             return;
         }
-
+        
         self.socket.emit("message", message);
         self.vm.message = "";
         $("#inputMessage").focus();
@@ -83,10 +88,12 @@ app.controller('ChatController', ['$scope', '$location', '$routeParams', 'Langua
             var msg;
             var user;
             self.vm.messages.push({ fromPartner: data.fromPartner, message: data.msg, hasDisconnected: false });
-
-            $(".scrollable-content")[0].scrollTop = $(".scrollable-content")[0].scrollHeight;
-
             $scope.$apply();
+           
+            $(".scrollable-content").scrollTop(999999);
+           
+
+            
         });
 
         self.socket.on('disconnected', function(hasPartnerDisconnected) {
@@ -120,7 +127,9 @@ app.controller('ChatController', ['$scope', '$location', '$routeParams', 'Langua
 
     this.findNewPartner = function(firstTime) {
         if (firstTime === false || firstTime == null) {
-            self.disconnect();
+            if(self.disconnect() === false){
+                return;
+            }
         }
 
         self.socket = io.connect('/', {
