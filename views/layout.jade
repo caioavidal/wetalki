@@ -2,10 +2,17 @@ doctype html
 html(data-ng-app="app")
   head
     title= title
-    meta(name="viewport",content="width=device-width, initial-scale=1")
+    meta(name="viewport",content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimal-ui")
+    meta(name="apple-mobile-web-app-capable" content="yes")
     meta(http-equiv="X-UA-Compatible", content="IE=edge")
-    meta(content="Practice any language, anytime, anywhere!")
+    meta(name="apple-mobile-web-app-status-bar-style" content="yes")
+      
+    meta(content="Practice any language, anytime, anywhere!", name="description")
+    meta(content="languages, practice languages, practice online, chat, chat online, chat languages, pratice language online, chat languages, chat with languages, talk with people, talk languages, wetalki, wetalki languages, wetalki practice languages, practice any language, how to practice languages online, how to practice languages, learn languages", name="keywords")
+    
     link(rel='stylesheet', href='/bower_components/bootstrap/dist/css/bootstrap.min.css')
+
+    base(href="/")
     block head
   body  
     block content

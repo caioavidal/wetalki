@@ -23,7 +23,7 @@ app.controller('IndexController', ['$scope', '$location','LanguageService',funct
     
     this.goToOneToOneChatRoom = function(selectedLanguage){
         //window.location.href = "/"
-        $location.path("/chat");
+        $location.path("chat/" + selectedLanguage.value);
     }
     
     

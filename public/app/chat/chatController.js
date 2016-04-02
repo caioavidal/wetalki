@@ -1,142 +1,151 @@
-app.controller('ChatController', ['$scope', '$location','LanguageService',function($scope,$location, LanguageService) {
+app.controller('ChatController', ['$scope', '$location', '$routeParams', 'LanguageService', function($scope, $location, $routeParams, LanguageService) {
     var self = this;
-    var socket = io('/');
-    
+    this.socket;
+    this.vm = new ChatViewModel();
+    this.lang = $routeParams.lang;
 
-    
-this.exit = function exit() {
-    var confirm = window.confirm("Are you sure?");
-    if (confirm === true) {
-        socket.emit("forceDisconnect");
+
+
+    this.exit = function exit() {
+
+        if (self.disconnect() === true) {
+            $location.path('/');
+        }
     }
-}
 
-this.sendMessage = function sendMessage() {
-    
-    var msg = $("#inputMessage").val();
-    
-    if(msg.trim() == ""){
+    this.disconnect = function() {
+        var confirm = window.confirm("Are you sure?");
+        if (confirm === true) {
+            self.socket.emit("forceDisconnect");
+            return true;
+        }
+        return false;
+
+    }
+
+    this.sendMessage = function sendMessage(message) {
+
+        if (message.trim() == "") {
+            $("#inputMessage").focus();
+            return;
+        }
+
+        self.socket.emit("message", message);
+        self.vm.message = "";
         $("#inputMessage").focus();
-        return;
-    }
-    
-    socket.emit("message", msg);
-    $("#inputMessage").val("");
-    $("#inputMessage").focus();
-    
-    
-}
 
-this.disconnect = function disconnect(hasPartnerDisconnected) {
-    var msg;
-    if (hasPartnerDisconnected === true) {
 
-        msg = "Your partner has disconnected";
-    } else {
-        msg = "You have disconnected";
+
     }
 
-    $("#waiting").hide();
-    $("#messagesBox").show();
+    this.showDisconnectMessage = function(hasPartnerDisconnected) {
+        var msg = "";
+        if (hasPartnerDisconnected === true) {
 
-    $("#messages").append('<p class="disconnected">' + msg + '</p>');
-    $("#sendButton").attr("disabled", "disabled");
-
-    $("#exitButton").hide();
-    $("#newPartnerButton").show();
-    $("#chooseAnotherLanguage").show();
-
-
-
-}
-
-function registerSocketEvents() {
-    socket.on('gochat', function(partnerSocketId) {
-
-        $("#waiting").hide();
-        $("#messages").html("");
-        $("#messagesBox").show();
-        $("#sendButton").removeAttr("disabled");
-        var newPartnerAlert = new Audio("/audios/newpartner.mp3");
-        newPartnerAlert.play();
-    });
-
-    socket.on('message', function(data) {
-        var msg;
-        var user; 
-        
-        if (data.fromPartner === true) {
-
-            user = $('<span class="partner">Partner:</span>');
-        }
-        else {
-            user = $('<span class="you">You:</span>');
+            msg += "Your partner has disconnected";
+        } else {
+            msg += "You have disconnected";
         }
 
-        //msg += data.msg;
-        var message = $('<span>');
-        message.text(" " + data.msg.trim());
+        //$("#waiting").hide();
+        //self.vm.isWaitingForPartner = false;
+
+
+        self.vm.messages.push({
+            fromPartner: hasPartnerDisconnected,
+            message: msg,
+            hasDisconnected: true
+        });
+
+        $scope.$apply();
+
+    }
+
+    this.registerSocketEvents = function() {
+        self.socket.on('gochat', function(partnerSocketId) {
+
+            //$("#waiting").hide();
+            self.vm.isWaitingForPartner = false;
+            //$("#messages").html("");
+            self.vm.messages.length = 0;
+
+            //$("#sendButton").removeAttr("disabled");
+            self.vm.isConnectedWithPartner = true;
+            var newPartnerAlert = new Audio("/audios/newpartner.mp3");
+            newPartnerAlert.play();
+
+            $scope.$apply();
+        });
         
-        var p = $("<p>");
-        p.append(user);
-        p.append(message);
-
-        $("#messages").append(p);
         
-        $("#chatMessages")[0].scrollTop = $("#chatMessages")[0].scrollHeight;
-    });
 
-    socket.on('disconnected', function(hasPartnerDisconnected) {
-        disconnect(hasPartnerDisconnected);
-    });
-}
+        self.socket.on('message', function(data) {
+            var msg;
+            var user;
+            self.vm.messages.push({ fromPartner: data.fromPartner, message: data.msg, hasDisconnected: false });
 
-function registerDomEvents() {
-    $("#sendButton").click(function() {
-        sendMessage();
-    });
+            $(".scrollable-content")[0].scrollTop = $(".scrollable-content")[0].scrollHeight;
 
-    $("#exitButton").click(function() {
-        exit();
-    });
+            $scope.$apply();
+        });
 
-    $("#newPartnerButton").click(function() {
-        findNewPartner();
-    });
-    $("#inputMessage").on("input",function(){
-      
-    });
+        self.socket.on('disconnected', function(hasPartnerDisconnected) {
+            self.showDisconnectMessage(hasPartnerDisconnected);
+        });
+    }
 
-    $("#inputMessage").on("keydown",function(event){
-       if (event.which === 13) {
-           sendMessage();
-           event.preventDefault();
-           return;
-       }
-    });
-}
-
-function findNewPartner() {
-    socket = io.connect('/', {
-        'reconnect': true,
-        'reconnection delay': 500,
-        'max reconnection attempts': 10
-    });
-    socket.emit('language', $("#lang").val());
-
-    $("#newPartnerButton").hide();
-    $("#exitButton").show();
-    $("#waiting").show();
-    $("#messages").html("");
-    $("#messagesBox").hide();
-    $("#sendButton").attr("disabled", "disabled");
-    $("#chooseAnotherLanguage").hide();
-
-    registerSocketEvents();
-}
+    this.registerDomEvents = function() {
 
 
-  
+        $("#exitButton").click(function() {
+            self.exit();
+        });
+
+        $("#newPartnerButton").click(function() {
+            self.findNewPartner();
+        });
+        $("#inputMessage").on("input", function() {
+
+        });
+
+    }
+
+    this.onKeyDown = function($event) {
+        if ($event.which === 13) { // enter
+            self.sendMessage(self.vm.message);
+            $event.preventDefault();
+            return;
+        }
+    }
+
+    this.findNewPartner = function(firstTime) {
+        if (firstTime === false || firstTime == null) {
+            self.disconnect();
+        }
+
+        self.socket = io.connect('/', {
+            'reconnect': true,
+            'reconnection delay': 500,
+            'max reconnection attempts': 10
+        });
+
+        self.socket.emit('language', self.lang);
+
+        self.vm.isWaitingForPartner = true;
+
+        self.vm.isConnectedWithPartner = false;
+
+
+        self.registerSocketEvents();
+    }
+
+
+    this.init = function() {
+        self.findNewPartner(true);
+    }
+    this.init();
+
+
 
 
 }]);

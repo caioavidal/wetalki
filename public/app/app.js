@@ -1,4 +1,4 @@
-var app = angular.module("app", ['ngRoute']);
+var app = angular.module("app", ['ngRoute','mobile-angular-ui']);
 
 app.config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
     $routeProvider.
@@ -7,7 +7,7 @@ app.config(['$routeProvider', '$locationProvider', function($routeProvider, $loc
             controller: "IndexController",
             controllerAs: "ctrl"
         }).
-        when('/chat', {
+        when('/chat/:lang', {
             templateUrl: 'partials/chat',
             controller: "ChatController",
             controllerAs: "ctrl"
@@ -17,7 +17,7 @@ app.config(['$routeProvider', '$locationProvider', function($routeProvider, $loc
             redirectTo: '/'
         });
     $locationProvider.html5Mode({
-        enabled: true,
-        requireBase: false
+        enabled: true
+        
     });
 }]);
