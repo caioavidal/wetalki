@@ -5,36 +5,6 @@ app.controller('ChatRoomController', ['$scope', '$location', '$routeParams', fun
     this.lang = $routeParams.lang;
     this.room = $routeParams.room;
 
- this.vm.chatUsers = [
-    { name: 'Carlos  Flowers', online: true },
-    { name: 'Byron Taylor', online: true },
-    { name: 'Jana  Terry', online: true },
-    { name: 'Darryl  Stone', online: true },
-    { name: 'Fannie  Carlson', online: true },
-    { name: 'Holly Nguyen', online: true },
-    { name: 'Bill  Chavez', online: true },
-    { name: 'Veronica  Maxwell', online: true },
-    { name: 'Jessica Webster', online: true },
-    { name: 'Jackie  Barton', online: true },
-    { name: 'Crystal Drake', online: false },
-    { name: 'Milton  Dean', online: false },
-    { name: 'Joann Johnston', online: false },
-    { name: 'Cora  Vaughn', online: false },
-    { name: 'Nina  Briggs', online: false },
-    { name: 'Casey Turner', online: false },
-    { name: 'Jimmie  Wilson', online: false },
-    { name: 'Nathaniel Steele', online: false },
-    { name: 'Aubrey  Cole', online: false },
-    { name: 'Donnie  Summers', online: false },
-    { name: 'Kate  Myers', online: false },
-    { name: 'Priscilla Hawkins', online: false },
-    { name: 'Joe Barker', online: false },
-    { name: 'Lee Norman', online: false },
-    { name: 'Ebony Rice', online: false }
-  ];
-
-
-
     this.exit = function exit() {
 
         if (self.disconnect() === true) {
@@ -42,10 +12,15 @@ app.controller('ChatRoomController', ['$scope', '$location', '$routeParams', fun
         }
     }
 
+    $scope.$on("$destroy", function(event) {
+        
+        self.socket.emit("forceDisconnectRoom");
+    });
+
     this.disconnect = function() {
         var confirm = window.confirm("Are you sure?");
         if (confirm === true) {
-            self.socket.emit("forceDisconnect");
+            self.socket.emit("forceDisconnectRoom");
             return true;
         }
         return false;
@@ -71,57 +46,51 @@ app.controller('ChatRoomController', ['$scope', '$location', '$routeParams', fun
 
     }
 
-    this.showDisconnectMessage = function(hasPartnerDisconnected) {
+    this.showDisconnectMessage = function(username) {
         var msg = "";
-        if (hasPartnerDisconnected === true) {
+        if (username === self.vm.username) {
 
-            msg += "Your partner has disconnected";
+            msg += "You have disconnected from this room";
         } else {
-            msg += "You have disconnected";
+            msg += username + " has disconnected from the room";
         }
-
-        //$("#waiting").hide();
-        //self.vm.isWaitingForPartner = false;
-
-
-        self.vm.messages.push({
-            fromPartner: hasPartnerDisconnected,
-            message: msg,
-            hasDisconnected: true
-        });
-
+        self.vm.messages.push({ 
+            from: '', 
+            message: msg, 
+            hasDisconnected: true });
+            
         $scope.$apply();
 
     }
 
     this.registerSocketEvents = function() {
-     
-     
-        
+
+
+
         self.socket.on('joinned', function(data) {
-            
+
             var username = data.username;
             var roomOnlineUsers = data.roomOnlineUsers;
-            
+
             self.vm.isWaitingForUsername = false;
 
             self.vm.isConnectedInRoom = true;
-            if(username === self.vm.username){
-               // self.vm.messages.push({ from: "", message: username + " has connected to the room", youConnected: true });
+            if (username === self.vm.username) {
+                // self.vm.messages.push({ from: "", message: username + " has connected to the room", youConnected: true });
                 var newPartnerAlert = new Audio("/audios/newpartner.mp3");
-                newPartnerAlert.play();    
-            }else{
-               
+                newPartnerAlert.play();
+            } else {
+
             }
-             self.vm.messages.push({ from: "", message: username + " has connected to the room", youConnected: true });
-             self.vm.roomOnlineUsers = roomOnlineUsers;
-            
+            self.vm.messages.push({ from: "", message: username + " has connected to the room", youConnected: true });
+            self.vm.roomOnlineUsers = roomOnlineUsers;
+
             $scope.$apply();
 
             $(".scrollable-content#messageBox").scrollTop(999999);
         });
 
-      
+
 
         self.socket.on('roomMessage', function(data) {
             self.vm.messages.push({ from: data.username, message: data.msg, hasDisconnected: false });
@@ -130,12 +99,24 @@ app.controller('ChatRoomController', ['$scope', '$location', '$routeParams', fun
             $(".scrollable-content#messageBox").scrollTop(999999);
         });
 
-        self.socket.on('disconnected', function(hasPartnerDisconnected) {
-            self.showDisconnectMessage(hasPartnerDisconnected);
+        self.socket.on('disconnected', function(username) {
+            self.showDisconnectMessage(username);
+            self.removeUserFromList(username);
+            $scope.$apply();
+        });
+        self.socket.on('roomError', function(roomError) {
+            self.vm.roomError = roomError;
+            $scope.$apply();
         });
     }
+    
+    this.removeUserFromList = function(username){
+        _.remove(self.vm.roomOnlineUsers,function(user){
+            return user === username;
+        } );
+    }
 
-   
+
 
     this.onKeyDown = function($event) {
         if ($event.which === 13) { // enter
@@ -144,22 +125,22 @@ app.controller('ChatRoomController', ['$scope', '$location', '$routeParams', fun
             return;
         }
     }
-    
-    
+
+
 
     this.joinRoom = function(username) {
 
-        if(self.socket == null || self.connect === false){
-              self.socket = io.connect('/', {
+        if (self.socket == null || self.connect === false) {
+            self.socket = io.connect('/', {
                 'reconnect': true,
                 'reconnection delay': 500,
                 'max reconnection attempts': 10
             });
-            
-             self.registerSocketEvents();
+
+            self.registerSocketEvents();
         }
-        
-         
+
+
 
         self.socket.emit('joinRoom', {
             username: username,
@@ -171,7 +152,7 @@ app.controller('ChatRoomController', ['$scope', '$location', '$routeParams', fun
         self.vm.isConnectedInRoom = false;
 
 
-       
+
     }
 
 
