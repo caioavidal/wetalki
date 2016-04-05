@@ -11,6 +11,8 @@ app.controller('IndexController', ['$scope', '$location', 'LanguageService', 'Ro
         LanguageService.getAllLanguages().then(function(languages) {
             self.vm.languages = languages;
         });
+
+
     }
 
 
@@ -34,7 +36,14 @@ app.controller('IndexController', ['$scope', '$location', 'LanguageService', 'Ro
     }
 
     this.joinRoom = function(room) {
+
+
+
+        $("#roomsModal").modal('hide');
+        $('body').removeClass('modal-open');
+        $('.modal-backdrop').remove();
         $location.path("chatroom/" + room);
+
     }
 
 

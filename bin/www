@@ -46,6 +46,11 @@ io.on('connection', function(socket) {
         socket.emit("disconnected", false);
         socket.disconnect();
     });
+    
+       socket.on("forceDisconnectRoom", function() {
+        io.in(socket.room).emit("disconnected",  socket.username);
+        socket.disconnect();
+    });
 
     socket.on('disconnect', function() {
         console.log('user disconnected: ' + socket.id);
@@ -53,7 +58,9 @@ io.on('connection', function(socket) {
         if (socket.partner != null) {
             socket.to(socket.partner.id).emit("disconnected", true);
         }
-
+        if(socket.room != null){
+           io.in(socket.room).emit("disconnected",  socket.username);
+        }
 
     });
 

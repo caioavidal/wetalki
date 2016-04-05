@@ -5,16 +5,7 @@ block head
     link(rel="stylesheet",href="/bower_components/mobile-angular-ui/dist/css/mobile-angular-ui-base.css")
     link(rel="stylesheet",href="/bower_components/mobile-angular-ui/dist/css/mobile-angular-ui-desktop.css")
 
-.modal.fade.in.username-modal(tabindex='-1', role='dialog', aria-labelledby='gridSystemModalLabel',data-ng-if="!ctrl.vm.isConnectedInRoom")
-      .modal-backdrop.in
-      .modal-dialog(role='document')
-        .modal-content
-          .modal-header
-            h4#gridSystemModalLabel.modal-title Enter you username
-          .modal-body
-            input.form-control(type="text", placeholder="Type here your usename",data-ng-model="ctrl.vm.username")  
-          .modal-footer
-            button.btn.btn-success(type='button', data-dismiss='modal', data-ng-click="ctrl.joinRoom(ctrl.vm.username)") Join
+
             
 .sidebar.sidebar-left(ui-track-as-search-param='true')       
  .scrollable
@@ -84,7 +75,21 @@ block head
                         
                         //button.btn.btn-danger.btn-lg.btn-block Exit
                         
-
+.modal.fade.in.username-modal(tabindex='-1', role='dialog', aria-labelledby='gridSystemModalLabel',ng-if='!ctrl.vm.isConnectedInRoom')
+      .modal-backdrop.in
+      .modal-dialog(role='document')
+        .modal-content
+          .modal-header
+            h4#gridSystemModalLabel.modal-title Enter you username
+          .modal-body
+            .alert.alert-warning.alert-dismissible(role='alert', data-ng-if="ctrl.vm.roomError != ''")
+                button.close(type='button', data-dismiss='alert', aria-label='Close')
+                    span(aria-hidden='true') ×
+                {{ctrl.vm.roomError}}
+             
+            input.form-control(type="text", placeholder="Type here your usename",data-ng-model="ctrl.vm.username")  
+          .modal-footer
+            button.btn.btn-success(type='button', data-dismiss='modal', data-ng-click="ctrl.joinRoom(ctrl.vm.username)") Join
 
 
 

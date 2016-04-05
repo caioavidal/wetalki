@@ -5,4 +5,5 @@ function ChatViewModel() {
     this.isWaitingForUsername = true;
     this.message = '';
     this.roomOnlineUsers = [];
+    this.roomError = '';
 }
