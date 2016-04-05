@@ -3,7 +3,7 @@ app.controller('ChatController', ['$scope', '$location', '$routeParams', 'Langua
     this.socket;
     this.vm = new ChatViewModel();
     this.lang = $routeParams.lang;
-    
+
 
 
 
@@ -14,8 +14,12 @@ app.controller('ChatController', ['$scope', '$location', '$routeParams', 'Langua
         }
     }
 
+    $scope.$on("$destroy", function(event) {
+       self.socket.emit("forceDisconnect");
+    });
+
     this.disconnect = function() {
-        var confirm = window.confirm("Are you sure?");
+        var confirm = window.confirm("You will be disconnected from this chat, do you want to proceed?");
         if (confirm === true) {
             self.socket.emit("forceDisconnect");
             return true;
@@ -25,16 +29,16 @@ app.controller('ChatController', ['$scope', '$location', '$routeParams', 'Langua
     }
 
     this.sendMessage = function sendMessage(message) {
-        
-        if(this.vm.isWaitingForPartner === true){
+
+        if (this.vm.isWaitingForPartner === true) {
             return;
         }
-        
+
         if (message.trim() == "") {
             $("#inputMessage").focus();
             return;
         }
-        
+
         self.socket.emit("message", message);
         self.vm.message = "";
         $("#inputMessage").focus();
@@ -81,19 +85,19 @@ app.controller('ChatController', ['$scope', '$location', '$routeParams', 'Langua
 
             $scope.$apply();
         });
-        
-        
+
+
 
         self.socket.on('message', function(data) {
             var msg;
             var user;
             self.vm.messages.push({ fromPartner: data.fromPartner, message: data.msg, hasDisconnected: false });
             $scope.$apply();
-           
-            $(".scrollable-content").scrollTop(999999);
-           
 
-            
+            $(".scrollable-content").scrollTop(999999);
+
+
+
         });
 
         self.socket.on('disconnected', function(hasPartnerDisconnected) {
@@ -127,7 +131,7 @@ app.controller('ChatController', ['$scope', '$location', '$routeParams', 'Langua
 
     this.findNewPartner = function(firstTime) {
         if (firstTime === false || firstTime == null) {
-            if(self.disconnect() === false){
+            if (self.disconnect() === false) {
                 return;
             }
         }
