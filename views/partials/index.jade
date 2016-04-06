@@ -11,9 +11,7 @@ link(rel='stylesheet', href="/bower_components/font-awesome/css/font-awesome.min
           .modal-body
             ul
                 li(data-ng-repeat="room in ctrl.vm.availableRooms track by $index")
-                    span {{::room.name}} ( 
-                    span           
-                    span  users online) - 
+                    span {{::room.name}}  
                     a(data-ng-click="ctrl.joinRoom(room.room)", href="" data-dismiss='modal') Join  
           .modal-footer
             button.btn.btn-default(type='button', data-dismiss='modal') Close
