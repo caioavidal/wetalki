@@ -75,13 +75,8 @@ app.controller('ChatRoomController', ['$scope', '$location', '$routeParams', fun
             self.vm.isWaitingForUsername = false;
 
             self.vm.isConnectedInRoom = true;
-            if (username === self.vm.username) {
-                // self.vm.messages.push({ from: "", message: username + " has connected to the room", youConnected: true });
-                var newPartnerAlert = new Audio("/audios/newpartner.mp3");
-                newPartnerAlert.play();
-            } else {
-
-            }
+            var newPartnerAlert = new Audio("/audios/newpartner.mp3");
+            newPartnerAlert.play();
             self.vm.messages.push({ from: "", message: username + " has connected to the room", youConnected: true });
             self.vm.roomOnlineUsers = roomOnlineUsers;
 
