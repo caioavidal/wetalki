@@ -17,7 +17,15 @@ block head
           
         .scrollable
             .scrollable-content
+                .ads
+                    script(async='', src='//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js')
+                    ins.adsbygoogle(style='display:block',data-adtest="on", data-ad-client='ca-pub-8215940757054585', data-ad-slot='2220627754', data-ad-format='auto')
+                    script.
+                        (adsbygoogle = window.adsbygoogle || []).push({});
+                    
                 #messageList
+                     
+                
                      div#connectedWithPartnerText(data-ng-if="ctrl.vm.isConnectedWithPartner") 
                         p.text-center You're now chatting with someone who wants to speak the same language as you. Let's go practice!
                         p#findSomeoneElse.text-center Click <a data-ng-click="ctrl.findNewPartner()" href="">here<a/> if you want to talk with someone else

@@ -99,53 +99,7 @@ span.user{
       font-weight: bold;
   }
 
-/*@media (max-width: 800px){
-.message{ 
-    padding-left: 5%; 
-     padding-right: 5%;
-}
-}
-@media (max-width: 856px){
-.message {
-    padding-left: 5.5%;
-    padding-right: 5.5%;
-}
-}
-@media (max-width: 912px){
-.message {
-    padding-left: 6%;
-    padding-right: 6%;
-}
-}
 
-
-@media (max-width: 1000px){
-.message {
-    padding-left: 6.5%;
-    padding-right: 6.5%;
-}
-  .message-from-partner{
-        float:left;
-    }
-     .message-from-you{
-         float:right;
-     }
-}
-
-
-
-@media (min-width:1000px) and (max-width: 3000px){
-    
-  span.user{
-      display:block;
-  }
-  .message-from-partner, .message-from-you{
-        float:left;
-    }
-    .message {
-    padding-left: 3%;
-}
-}*/
 
 @media (min-width:1000px) and (max-width: 3000px){
     
@@ -195,3 +149,7 @@ span.sad{
     font-weight: bold;
 }
 
+.ads{
+    height: 60px;
+    width: 100%;
+}
