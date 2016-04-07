@@ -16,9 +16,10 @@
             scope : {
                 adClient : '@',
                 adSlot : '@',
-                inlineStyle : '@'
+                inlineStyle : '@',
+                adFormat: '@'
             },
-            template: '<div class="ads"><ins class="adsbygoogle" data-ad-client="{{adClient}}" data-ad-slot="{{adSlot}}" style="{{inlineStyle}}"></ins></div>',
+            template: '<ins class="adsbygoogle" data-ad-client="{{adClient}}" data-ad-slot="{{adSlot}}" data-ad-format="{{adFormat}}" style="{{inlineStyle}}"></ins>',
             controller: ['Adsense', '$timeout', function (Adsense, $timeout) {
                 if (!Adsense.isAlreadyLoaded) {
                     var s = document.createElement('script');
