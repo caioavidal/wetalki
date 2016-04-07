@@ -37,9 +37,9 @@ io.on('connection', function(socket) {
 
     console.log('user connected: ' + socket.id);
 
-    var qtdNumUsersOnline = 50 + new Date().getHours() * 2;
-    socket.emit("numUsersOnline2", Object.keys(clients).length); //remove, it is just for marketing purpose
-    socket.emit("numUsersOnline", qtdNumUsersOnline); //remove, it is just for marketing purpose
+    //var qtdNumUsersOnline = 50 + new Date().getHours() * 2;
+    socket.emit("numUsersOnline", Object.keys(clients).length);
+    //socket.emit("numUsersOnline", qtdNumUsersOnline); //remove, it is just for marketing purpose
 
 
     socket.on("forceDisconnect", function() {
