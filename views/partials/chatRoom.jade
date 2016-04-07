@@ -58,7 +58,7 @@ block head
                                 .message-content
                                     .message-text
                                         span.message-pre-text
-                                        span.text.user(data-ng-if="message.from !== ''") {{:: message.from}} 
+                                        span.text.user(data-ng-if="message.from !== ''") {{:: message.from}}: 
                                         span.text {{:: message.message}}   
                                         span.sad(data-ng-if="message.hasDisconnected") :(
                                     .message-meta
