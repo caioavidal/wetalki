@@ -36,10 +36,8 @@ block head
             .scrollable
                 .scrollable-content#messageBox
                     .ads
-                        script(async='', src='//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js')
-                        ins.adsbygoogle(style='display:block', data-ad-client='ca-pub-8215940757054585', data-ad-slot='2220627754', data-ad-format='auto')
-                        script.
-                            (adsbygoogle = window.adsbygoogle || []).push({});
+                        adsense(ad-client="ca-pub-8215940757054585" ad-slot="2220627754" ad-format="auto" inline-style="display:block")
+                     
                     #messageList
                         div#connectedWithPartnerText(data-ng-if="ctrl.vm.isConnectedInRoom") 
                             p.text-center You're now chatting on this room!
