@@ -25,8 +25,13 @@ block head
                      
                 
                      div#connectedWithPartnerText(data-ng-if="ctrl.vm.isConnectedWithPartner") 
-                        p.text-center You're now chatting with someone who wants to speak the same language as you. Let's go practice!
-                        p#findSomeoneElse.text-center Click <a data-ng-click="ctrl.findNewPartner()" href="">here<a/> if you want to talk with someone else
+                        p.text-center You're now chatting with someone who wants to speak the same language as you. Let's go practice! 
+                        p#findSomeoneElse.text-center
+                            | Click 
+                            a(data-ng-click='ctrl.findNewPartner()', href='')
+                                | here
+                            |  if you want to talk with someone else
+
                      
                      #waiting(data-ng-if="ctrl.vm.isWaitingForPartner")
                         .progress
