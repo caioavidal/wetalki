@@ -1,4 +1,4 @@
-var app = angular.module("app", ['ngRoute','mobile-angular-ui','ngLodash']);
+var app = angular.module("app", ['ngRoute','mobile-angular-ui','ngLodash','angular-google-adsense']);
 
 app.config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
     $routeProvider.
