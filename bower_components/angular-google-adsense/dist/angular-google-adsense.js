@@ -19,7 +19,7 @@
                 inlineStyle : '@',
                 adFormat: '@'
             },
-            template: '<ins class="adsbygoogle" data-ad-client="{{adClient}}" data-ad-slot="{{adSlot}}" data-ad-format="{{adFormat}}" style="{{inlineStyle}}"></ins>',
+            template: '<div><ins class="adsbygoogle" data-ad-client="{{adClient}}" data-ad-slot="{{adSlot}}" data-ad-format="{{adFormat}}" style="{{inlineStyle}}"></ins></div>',
             controller: ['Adsense', '$timeout', function (Adsense, $timeout) {
                 if (!Adsense.isAlreadyLoaded) {
                     var s = document.createElement('script');
