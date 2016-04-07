@@ -93,7 +93,11 @@ app.controller('ChatRoomController', ['$scope', '$location', '$routeParams', fun
 
 
         self.socket.on('roomMessage', function(data) {
-            self.vm.messages.push({ from: data.username, message: data.msg, hasDisconnected: false });
+            var fromPartner = true;
+            if(data.username === self.vm.username){
+                fromPartner = false;
+            }
+            self.vm.messages.push({fromPartner:fromPartner, from: data.username, message: data.msg, hasDisconnected: false });
             $scope.$apply();
 
             $(".scrollable-content#messageBox").scrollTop(999999);
