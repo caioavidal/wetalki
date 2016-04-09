@@ -1,0 +1,46 @@
+<div id="modalRoom" tabindex="-1" role="dialog" aria-hidden="true" class="portfolio-modal modal fade">
+  <div class="modal-content">
+    <div data-dismiss="modal" class="close-modal">
+      <div class="lr">
+        <div class="rl"></div>
+      </div>
+    </div>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-lg-offset-2">
+          <div class="modal-body">
+            <h2>{{roomName}}</h2>
+            <hr class="globe-primary"/>
+            <div class="row cards-container">
+              <div class="card orange" ng-click="goToRoom('english', roomName)">English</div>
+              <div class="card pink" ng-click="goToRoom('spanish', roomName)">Spanish</div>
+            </div>
+            <div class="row cards-container">
+              <div class="card green" ng-click="goToRoom('french', roomName)">French</div>
+              <div class="card blue" ng-click="goToRoom('portuguese', roomName)">Portuguese</div>
+            </div>
+            <div class="row cards-container">
+              <div style="background-color:#C87F0A" class="card" ng-click="goToRoom('german', roomName)">German</div>
+              <div style="background-color:#A29E12" class="card" ng-click="goToRoom('italian', roomName)">Italian</div>
+            </div>
+            <div class="row cards-container">
+              <div style="background-color:#2C3E50" class="card" ng-click="goToRoom('chinese', roomName)">Chinese</div>
+              <div style="background-color:#6912F3" class="card" ng-click="goToRoom('japonese', roomName)">Japonese</div>
+            </div>
+            <div class="row cards-container">
+              <div style="background-color:#000000" class="card" ng-click="goToRoom('korean', roomName)">Korean</div>
+              <div style="background-color:#794949" class="card" ng-click="goToRoom('russian', roomName)">Russian</div>
+            </div>
+            <div class="row cards-container">
+              <div style="background-color:#00D0FF" class="card" ng-click="goToRoom('arabic', roomName)">Arabic</div>
+              <div style="background-color:#24D83A" class="card" ng-click="goToRoom('hindi', roomName)">Hindi</div>
+            </div>
+            <p>{{roomDescription}}</p>
+            <p>Click in the room which you want to join</p>
+            <button type="button" data-dismiss="modal" class="btn btn-default"><i class="fa fa-times"></i> Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

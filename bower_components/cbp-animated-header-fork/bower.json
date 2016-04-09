@@ -1,0 +1,26 @@
+{
+  "name": "cbp-animated-header-fork",
+  "version": "0.0.1",
+  "homepage": "https://github.com/codrops/AnimatedHeader",
+  "authors": [
+    "botelho <http://tympanus.net/codrops>"
+  ],
+  "description": "Fork from original source to enable bower downloads.",
+  "main": "js/cbpAnimatedHeader.min.js",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "classie": ">=1.0.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/amostajo/AnimatedHeader.git"
+  },
+  "private": false
+}

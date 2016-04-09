@@ -7,7 +7,7 @@ app.config(['$routeProvider', '$locationProvider', function($routeProvider, $loc
             controller: "IndexController",
             controllerAs: "ctrl"
         }).
-        when('/chat/:lang', {
+        when('/chat/:username/:language/:userSex/:partnerSex', {
             templateUrl: 'partials/chat',
             controller: "ChatController",
             controllerAs: "ctrl"

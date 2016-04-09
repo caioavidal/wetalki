@@ -1,154 +1,264 @@
 link(rel='stylesheet', href="/stylesheets/index.css")
+
+// Custom Fonts
 link(rel='stylesheet', href="/bower_components/font-awesome/css/font-awesome.min.css")
+link(href='https://fonts.googleapis.com/css?family=Montserrat:400,700', rel='stylesheet', type='text/css')
+link(href='https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic', rel='stylesheet', type='text/css')
 
-.modal.fade.rooms-modal#roomsModal(tabindex='-1', role='dialog', aria-labelledby='gridSystemModalLabel')
-      .modal-dialog(role='document')
-        .modal-content
-          .modal-header
-            button.close(type='button', data-dismiss='modal', aria-label='Close')
-              span(aria-hidden='true') ×
-            h4#gridSystemModalLabel.modal-title Available Rooms
-          .modal-body
-            ul
-                li(data-ng-repeat="room in ctrl.vm.availableRooms track by $index")
-                    span {{::room.name}}  
-                    a(data-ng-click="ctrl.joinRoom(room.room)", href="" data-dismiss='modal') Join  
-          .modal-footer
-            button.btn.btn-default(type='button', data-dismiss='modal') Close
-            
+modal-room(name="ctrl.vm.roomName",description="ctrl.vm.roomDescription")
+
+// Navigation
+nav.navbar.navbar-default.navbar-fixed-top
+  .container
+    // Brand and toggle get grouped for better mobile display
+    .navbar-header.page-scroll
+      button.navbar-toggle(type='button', data-toggle='collapse', data-target='#bs-example-navbar-collapse-1')
+        span.sr-only Toggle navigation
+        span.icon-bar
+        span.icon-bar
+        span.icon-bar
+      a.navbar-brand(href='#page-top')
+        | Wetalki
+    // Collect the nav links, forms, and other content for toggling
+    #bs-example-navbar-collapse-1.collapse.navbar-collapse
+      ul.nav.navbar-nav.navbar-right
+        li.hidden
+          a(href='#page-top')
+        li.page-scroll
+          a(href='#portfolio') Rooms
+        li.page-scroll
+          a(href='#users-online') Users online
+        li.page-scroll
+          a(href='#new-room') Create new Room
+        li.page-scroll
+          a(href='#find-partner') Find a Partner
+        li.page-scroll
+          a(href='#about') About
+        //
+          <li class="page-scroll">
+          <a href="#contact">Games</a>
+          </li>
+    // /.navbar-collapse
+  // /.container-fluid
+// Header
+header
+  .container
+    .row
+      .col-lg-12
+        img.img-responsive(src='/images/logo256x256.png', alt='')
+        .intro-text
+          span.name Practice Languages
+          hr.globe-light
+          span.skills Practice any language, anytime, anywhere
+// Portfolio Grid Section
+section#portfolio
+  .container
+    .row
+      .col-lg-12.text-center
+        h2 Rooms
+        hr.globe-primary
+    .row
+        .col-lg-12
+            adsense(ad-client="ca-pub-8215940757054585" ad-slot="2220627754" ad-format="auto" inline-style="display:block")
+    br
+    .row
+      .col-sm-4.portfolio-item
+        a.portfolio-link(href='#', data-toggle='modal', ng-click="ctrl.openModal('Free','On this room we are free to talk about anything')")
+          .caption
+            .caption-content
+              i.fa.fa-search-plus.fa-3x
+          img.img-responsive(src='/images/rooms/free.png', alt='')
+      .col-sm-4.portfolio-item
+        a.portfolio-link(href='#', data-toggle='modal',ng-click="ctrl.openModal('Politics','On this room we talk about politics')")
+          .caption
+            .caption-content
+              i.fa.fa-search-plus.fa-3x
+          img.img-responsive(src='/images/rooms/politics.png', alt='')
+      .col-sm-4.portfolio-item
+        a.portfolio-link(href='#', data-toggle='modal',ng-click="ctrl.openModal('Sports','On this room we talk about sports')")
+          .caption
+            .caption-content
+              i.fa.fa-search-plus.fa-3x
+          img.img-responsive(src='/images/rooms/sports.png', alt='')
+      .col-sm-4.portfolio-item
+        a.portfolio-link(href='#', data-toggle='modal',ng-click="ctrl.openModal('Movies','On this room we talk about movies')")
+          .caption
+            .caption-content
+              i.fa.fa-search-plus.fa-3x
+          img.img-responsive(src='/images/rooms/movies.png', alt='')
+      .col-sm-4.portfolio-item
+        a.portfolio-link(href='#', data-toggle='modal',ng-click="ctrl.openModal('Music','On this room we talk about music')")
+          .caption
+            .caption-content
+              i.fa.fa-search-plus.fa-3x
+          img.img-responsive(src='/images/rooms/music.png', alt='')
+      .col-sm-4.portfolio-item
+        a.portfolio-link(href='#', data-toggle='modal',ng-click="ctrl.openModal('Travel','On this room we talk about travel')")
+          .caption
+            .caption-content
+              i.fa.fa-search-plus.fa-3x
+          img.img-responsive(src='/images/rooms/travel.png', alt='')
+// Users Online Section
+section#users-online.success
+  .container
+    .row
+      .col-lg-12.text-center
+        h2 Users Online
+        hr.globe-light
+    .row
+      .col-lg-12.text-center
+        h3 We have {{ctrl.vm.numUsersOnline}} {{ctrl.vm.numUsersOnline > 1 ? 'users' : 'user' }}  online now
+section#new-room
+  .container
+    .row
+      .col-lg-12.text-center
+        h2 Create new Room
+        hr.gobe-primary
+    .row
+        .col-lg-12
+            adsense(ad-client="ca-pub-8215940757054585" ad-slot="2220627754" ad-format="auto" inline-style="display:block")
+    br
+    .row
+      .col-md-12
+        p Here you can create a new room and share with your friends
+        form#createRoom(novalidate='')
+          .row.control-group
+            .form-group.col-xs-12.floating-label-form-group.controls
+              label Enter the name of the room
+              input#name.form-control(type='text', ng-model="ctrl.vm.roomNameToCreate", placeholder='Room name', required='', data-validation-required-message='Please enter a name of the room.')
+              p.help-block.text-danger
+          br
+          .row
+            .form-group.col-xs-12
+              button.btn.btn-success.btn-lg(type='submit', ng-click="ctrl.createRoom(ctrl.vm.roomNameToCreate)") Create
+          .well.well-sm 
+            <a href="http://{{ctrl.vm.chatRoomCreated}}" target="_blank">{{ctrl.vm.chatRoomCreated}}</a>
+section#find-partner
+  .container
+    .row
+      .col-lg-12.text-center
+        h2 Find a Partner
+        hr.gobe-primary
+    .row
+        .col-lg-12
+            adsense(ad-client="ca-pub-8215940757054585" ad-slot="2220627754" ad-format="auto" inline-style="display:block")
+    br
+    .row
+      .col-md-12
+        p Here you can find a partner by filling the form bellow
+        form#contactForm(name='sentMessage', novalidate='')
+          .row.control-group
+            .form-group.col-xs-12.floating-label-form-group.controls
+              label Enter your username
+              input#name.form-control(type='text', ng-model="ctrl.vm.username" placeholder='Username', required='', data-validation-required-message='Please enter your username.')
+              p.help-block.text-danger
+          .row.control-group
+            .form-group.col-md-4.col-xs-12.floating-label-form-group.controls
+              label Choose the language you want to talk
+              select#language.form-control.col-md-4(required='',data-ng-model="ctrl.vm.language", data-validation-required-message='Please choose the language.')
+                option(value="") Select the language                        
+                option(value="en") English
+                option(value="pt") Portuguese
+                option(value="sp") Spanish
+                option(value="fr") French
+                option(value="ge") German
+                option(value="it") Italian
+                option(value="ch") Chinese
+                option(value="ja") Japonese
+                option(value="ko") Korean
+                option(value="ru") Russian
+                option(value="ar") Arabic
+                option(value="la") Latin
+                option(value="hi") Hindi
+              p.help-block.text-danger
+          .row.control-group
+            .form-group.col-xs-12.col-md-4.floating-label-form-group.controls
+              label Choose your sex
+              select#language.form-control.col-md-4(required='', ng-model="ctrl.vm.userSex" data-validation-required-message='Please choose your sex.')
+                option Select your sex
+                option Male 
+                option Female 
+              p.help-block.text-danger
+          .row.control-group
+            .form-group.col-xs-12.col-md-4.floating-label-form-group.controls
+              label Choose the sex of your partner
+              select#language.form-control.col-md-4(required='',  ng-model="ctrl.vm.partnerSex", data-validation-required-message='Please choose your sex.')
+                option Select the sex of your partner
+                option Any
+                option Male 
+                option Female 
+              p.help-block.text-danger
+          br
+          .row
+            .form-group.col-xs-12
+              button.btn.btn-success.btn-lg(type='submit', ng-click="ctrl.findPartner(ctrl.vm.username,ctrl.vm.language,ctrl.vm.userSex, ctrl.vm.partnerSex)")
+                i.fa.fa-search  
+                |   Find
+// About Section
+section#about.success
+  .container
+    .row
+      .col-lg-12.text-center
+        h2 About
+        hr.globe-light
+    .row
+      .col-lg-4.col-lg-offset-2
+        p
+          | Wetalki is a website which provides you a way to practice languages with people from all over the world.
+          | We have many rooms available to you where you can choose the language and the topic of interest.
+          | We also have a way to connect with someone who wants to talk the same language that you want.
+      .col-lg-4
+        p
+          | We provide everything for free. We just have some advertises on the page in order to get money to keep our site online.
+
+// Footer
+footer.text-center
+  .footer-above
+    .container
+      .row
+        .footer-col.col-md-4
+          h3 Terms of Service
+          p
+            | By using the Wetalki Web site, and/or related products and/or services ("Wetalki", provided by Wetalki.com),
+            | you agree to the 
+            a  terms of service 
+            | .
+        .footer-col.col-md-4
+          h3 Around the Web
+          ul.list-inline
+            li
+              a.btn-social.btn-outline(href='#')
+                i.fa.fa-fw.fa-facebook
+            //
+              <li>
+              <a href="#" class="btn-social btn-outline"><i class="fa fa-fw fa-google-plus"></i></a>
+              </li>
+            //
+              <li>
+              <a href="#" class="btn-social btn-outline"><i class="fa fa-fw fa-twitter"></i></a>
+              </li>
+              <li>
+              <a href="#" class="btn-social btn-outline"><i class="fa fa-fw fa-linkedin"></i></a>
+              </li>
+              <li>
+              <a href="#" class="btn-social btn-outline"><i class="fa fa-fw fa-dribbble"></i></a>
+              </li>
+        .footer-col.col-md-4
+          h3 About Wetalki
+          p Wetalki is a totally free platform to support people in their languages studies
+  .footer-below
+    .container
+      .row
+        .col-lg-12
+          | Copyright © Wetalki 2016
+// Scroll to Top Button (Only visible on small and extra-small screen sizes)
+.scroll-top.page-scroll.hidden-sm.hidden-xs.hidden-lg.hidden-md
+  a.btn.btn-primary(href='#page-top')
+    i.fa.fa-chevron-up
 
 
-    .container-fluid
-        
-        .row(style="background-color:#F3F3F3")
-            .col-md-3.col-md-offset-5
-                .logo
-                    img.img-responsive.center-block(src="/images/logo128x128.png")
-                    h3.center-block.text-center wetalki
-                    h5.center-block.text-center Practice any language, anytime, anywhere!
-                    
-                    if error != null
-                        .alert.alert-warning(role="alert") #{error}
 
-                
-                            
-                
-            .col-md-4(style="text-align: right;")
-                #numUsersOnline
-                    strong(data-ng-bind="ctrl.vm.numUsersOnline")
-                        
-                    spam.
-                         online now
-             br
-        
-        
-        .row#features
-            //(style="background-color: #3B3D3F;color: #ECECEC;")
-            .col-md-3.col-md-offset-1.col-xs-12
-                div.text-center
-                    i.fa.fa-wechat.fa-5x
-                h3.text-center Talk One to One
-                form(action="/", method="post")
-                    form-group
-                    
-                        select.form-control.input-lg(
-                         data-ng-model="ctrl.vm.selectedLanguage",
-                         data-ng-options="language as language.text for language in ctrl.vm.languages track by language.value")
-                            option(value="") Select the language                        
-                          
-                    br
-                    input.btn.btn-primary.btn-lg.center-block(type="button",value="Let's Talk", data-ng-click="ctrl.goToOneToOneChatRoom(ctrl.vm.selectedLanguage)")
-                br
-                br
-            .col-md-3.col-md-offset-1.col-xs-12
-                div.text-center
-                    i.fa.fa-group.fa-5x
-                h3.text-center Talk In Groups
-            
-                form-group
-                    select.form-control.input-lg(data-ng-model="ctrl.vm.langCodeGroup")
-                        option(value="") Select the language                        
-                        option(value="en") English
-                        option(value="pt") Portuguese
-                        option(value="sp") Spanish
-                        option(value="fr") French
-                        option(value="ge") German
-                        option(value="it") Italian
-                        option(value="ch") Chinese
-                        option(value="ja") Japonese
-                        option(value="ko") Korean
-                        option(value="ru") Russian
-                        option(value="ar") Arabic
-                        option(value="la") Latin
-                        option(value="hi") Hindi
-                br
-                form-group
-                    select.form-control.input-lg(data-ng-model="ctrl.vm.topicGroup")
-                        option(value="") Choose a topic                        
-                        option(value="free") Free
-                        option(value="politics") Politics
-                        option(value="sports") Sports
-                        option(value="movies") Movies
-                        option(value="music") Music
-                        option(value="travel") Travel
-                        option(value="jobs") Jobs
-                br
-                input.btn.btn-success.btn-lg.center-block(type="button",value="Join a room",data-toggle='modal', data-target='.rooms-modal',data-ng-click="ctrl.loadRooms(ctrl.vm.langCodeGroup,ctrl.vm.topicGroup)")
-                br          
-            .col-md-3.col-md-offset-1.col-xs-12
-                div.text-center
-                    i.fa.fa-headphones.fa-5x
-                h3.text-center Talk with Audio
-                br
-                br
-                h3.text-center  In Development...
-        br
-        .marketing
-            .row
-                .col-md-3.col-md-offset-1
-                    div.features-box-icon
-                        i.fa.fa-thumbs-o-up
 
-                    h2 Simplicity
-                    p.
-                        No Sign Up or Registration needed to Chat. We know your time is valuable. It's simple & crafted with love.
-                    
-                .col-md-3.col-md-offset-1
-                    div.features-box-icon
-                        i.fa.fa-mobile
-                
-                    h2 Mobile-Friendly
-                    p.
-                        Got iPhone, Android or Tablet? No problem! Chat smoothly on all platforms.
-                    
-                // /.col-lg-4
-                .col-md-3.col-md-offset-1
-                    div.features-box-icon
-                        i.fa.fa-globe                    
-                    h2 Freedom
-                    p.
-                        Talk with people from all over the world & discuss about any topic that matters to you. As more you practice, the more you will improve.
-             
-   
-     p.text-center
-        //div(data-adsense,style='display:inline-block;width:728px;height:90px')
-        
-        //adsense(ad-client="ca-pub-8215940757054585" ad-slot="2220627754" inline-style="display:inline-block;width:728px;height:90px")
-        adsense(ad-client="ca-pub-8215940757054585" ad-slot="2220627754" ad-format="auto" inline-style="display:block")
 
-    footer.footer
-      .container
-        .row
-          .col-sm-12.footer-social
-            a(target='new_blank', href='https://www.facebook.com/Wetalki-Languages-1094680307255625/')
-              i.fa.fa-facebook
-        br
-        .row
-          .col-sm-12.footer-copyright
-            | © 2016 Wetalki, Inc.
-        .row(style= "margin:0;")
-                p.text-center.
-                    By using the Wetalki Web site, and/or related products and/or services ("Wetalki", provided by Wetalki.com), you agree to the <a href="/termsofservice.html">terms of service</a>.
-            
-       
+     
     

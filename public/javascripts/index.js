@@ -1,42 +1,31 @@
-// $(function(){
+   // jQuery for page scrolling feature - requires jQuery Easing plugin
+        $(function() {
+            $('body').on('click', '.page-scroll a', function(event) {
+                var $anchor = $(this);
+                $('html, body').stop().animate({
+                    scrollTop: $($anchor.attr('href')).offset().top
+                }, 1500, 'easeInOutExpo');
+                event.preventDefault();
+            });
+        });
 
-//     var socket = io('/');
+        // Floating label headings for the contact form
+        $(function() {
+            $("body").on("input propertychange", ".floating-label-form-group", function(e) {
+                $(this).toggleClass("floating-label-form-group-with-value", !! $(e.target).val());
+            }).on("focus", ".floating-label-form-group", function() {
+                $(this).addClass("floating-label-form-group-with-focus");
+            }).on("blur", ".floating-label-form-group", function() {
+                $(this).removeClass("floating-label-form-group-with-focus");
+            });
+        });
 
-//     socket.on("numUsersOnline",function(numUsersOnline){
-//             // $("#numUsersOnline").html("<strong>"+  numUsersOnline + "</strong>" + " online now");
-//             this.AppViewModel.numUsersOnline = numUsersOnline;
-//     });
+        // Highlight the top nav as scrolling occurs
+        $('body').scrollspy({
+            target: '.navbar-fixed-top'
+        })
 
-
-// })
-
-function AppViewModel() {
-
-    var self = this;
-
-    self.numUsersOnline = ko.observable();
-    self.rooms =  ko.observable();
-
-    var socket = io('/');
-
-    socket.on("numUsersOnline", function(numUsersOnline) {
-        self.numUsersOnline(numUsersOnline);
-    });
-    
-    socket.on("listRooms", function(rooms) {
-        self.rooms(rooms);
-    });
-
-    self.listRooms = function() {
-        socket.emit("listRooms", { lang: 'en', topic: 'politics' });
-    };
-    
-    self.joinRoom = function(room){
-        socket.emit("joinRoom", room.name);
-    }
-}
-
-ko.applyBindings(new AppViewModel());
-
-
-
+        // Closes the Responsive Menu on Menu Item Click
+        $('.navbar-collapse ul li a:not(.dropdown-toggle)').click(function() {
+            $('.navbar-toggle:visible').click();
+        });
