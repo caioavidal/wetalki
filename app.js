@@ -14,6 +14,8 @@ var api = require('./routes/api');
 
 var app = express();
 
+
+
 //var http = require('http').Server(app);
 
 
@@ -32,45 +34,16 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/bower_components', express.static(path.join(__dirname , 'bower_components')));
 
+
+
 app.use('/', index);
 //app.use('/chat', chat);
 app.get('/api/laguanges', api.languages);
 app.get('/partials/:name', routes.partials);
 
-app.get('*', routes.index);
+//app.get('*', routes.index);
 
 
-
-// catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  var err = new Error('Not Found');
-  err.status = 404;
-  next(err);
-});
-
-// error handlers
-
-// development error handler
-// will print stacktrace
-if (app.get('env') === 'development') {
-  app.use(function(err, req, res, next) {
-    res.status(err.status || 500);
-    res.render('error', {
-      message: err.message,
-      error: err
-    });
-  });
-}
-
-// production error handler
-// no stacktraces leaked to user
-app.use(function(err, req, res, next) {
-  res.status(err.status || 500);
-  res.render('error', {
-    message: err.message,
-    error: {}
-  });
-});
 
 
 module.exports = app;
