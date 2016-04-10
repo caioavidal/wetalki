@@ -1,4 +1,4 @@
-var app = angular.module("app", ['ngRoute','mobile-angular-ui','ngLodash','angular-google-adsense']);
+var app = angular.module("app", ['ngRoute', 'mobile-angular-ui', 'ngLodash', 'angular-google-adsense']);
 
 app.config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
     $routeProvider.
@@ -7,7 +7,12 @@ app.config(['$routeProvider', '$locationProvider', function($routeProvider, $loc
             controller: "IndexController",
             controllerAs: "ctrl"
         }).
-        when('/chat/:username/:language/:userSex/:partnerSex', {
+        when('/chat/:language/:userSex/:partnerSex', {
+            templateUrl: 'partials/chat',
+            controller: "ChatController",
+            controllerAs: "ctrl"
+        }).
+        when('/chat1to1/:room', {
             templateUrl: 'partials/chat',
             controller: "ChatController",
             controllerAs: "ctrl"
@@ -18,11 +23,12 @@ app.config(['$routeProvider', '$locationProvider', function($routeProvider, $loc
             controllerAs: "ctrl"
         }).
 
+
         otherwise({
             redirectTo: '/'
         });
     $locationProvider.html5Mode({
         enabled: true
-        
+
     });
 }]);

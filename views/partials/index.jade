@@ -25,7 +25,7 @@ nav.navbar.navbar-default.navbar-fixed-top
         li.hidden
           a(href='#page-top')
         li.page-scroll
-          a(href='#portfolio') Rooms
+          a(href='#rooms') Rooms
         li.page-scroll
           a(href='#users-online') Users online
         li.page-scroll
@@ -50,54 +50,9 @@ header
           span.name Practice Languages
           hr.globe-light
           span.skills Practice any language, anytime, anywhere
-// Portfolio Grid Section
-section#portfolio
-  .container
-    .row
-      .col-lg-12.text-center
-        h2 Rooms
-        hr.globe-primary
-    .row
-        .col-lg-12
-            adsense(ad-client="ca-pub-8215940757054585" ad-slot="2220627754" ad-format="auto" inline-style="display:block")
-    br
-    .row
-      .col-sm-4.portfolio-item
-        a.portfolio-link(href='#', data-toggle='modal', ng-click="ctrl.openModal('Free','On this room we are free to talk about anything')")
-          .caption
-            .caption-content
-              i.fa.fa-search-plus.fa-3x
-          img.img-responsive(src='/images/rooms/free.png', alt='')
-      .col-sm-4.portfolio-item
-        a.portfolio-link(href='#', data-toggle='modal',ng-click="ctrl.openModal('Politics','On this room we talk about politics')")
-          .caption
-            .caption-content
-              i.fa.fa-search-plus.fa-3x
-          img.img-responsive(src='/images/rooms/politics.png', alt='')
-      .col-sm-4.portfolio-item
-        a.portfolio-link(href='#', data-toggle='modal',ng-click="ctrl.openModal('Sports','On this room we talk about sports')")
-          .caption
-            .caption-content
-              i.fa.fa-search-plus.fa-3x
-          img.img-responsive(src='/images/rooms/sports.png', alt='')
-      .col-sm-4.portfolio-item
-        a.portfolio-link(href='#', data-toggle='modal',ng-click="ctrl.openModal('Movies','On this room we talk about movies')")
-          .caption
-            .caption-content
-              i.fa.fa-search-plus.fa-3x
-          img.img-responsive(src='/images/rooms/movies.png', alt='')
-      .col-sm-4.portfolio-item
-        a.portfolio-link(href='#', data-toggle='modal',ng-click="ctrl.openModal('Music','On this room we talk about music')")
-          .caption
-            .caption-content
-              i.fa.fa-search-plus.fa-3x
-          img.img-responsive(src='/images/rooms/music.png', alt='')
-      .col-sm-4.portfolio-item
-        a.portfolio-link(href='#', data-toggle='modal',ng-click="ctrl.openModal('Travel','On this room we talk about travel')")
-          .caption
-            .caption-content
-              i.fa.fa-search-plus.fa-3x
-          img.img-responsive(src='/images/rooms/travel.png', alt='')
+// Rooms Grid Section
+section#rooms(ng-include="'partials/rooms'")
+
 // Users Online Section
 section#users-online.success
   .container
@@ -120,6 +75,7 @@ section#new-room
     br
     .row
       .col-md-12
+        h3.text-center Create a Group Room
         p Here you can create a new room and share with your friends
         form#createRoom(novalidate='')
           .row.control-group
@@ -130,9 +86,21 @@ section#new-room
           br
           .row
             .form-group.col-xs-12
-              button.btn.btn-success.btn-lg(type='submit', ng-click="ctrl.createRoom(ctrl.vm.roomNameToCreate)") Create
-          .well.well-sm 
-            <a href="http://{{ctrl.vm.chatRoomCreated}}" target="_blank">{{ctrl.vm.chatRoomCreated}}</a>
+              button.btn.btn-success.btn-lg(type='submit',ng-click="ctrl.createRoom(ctrl.vm.roomNameToCreate)") Create a Group Room
+          .well.well-sm(ng-if="ctrl.vm.chatRoomCreated != null")
+            <a href="{{ctrl.vm.chatRoomCreated}}" target="_blank">http://www.wetalki.com{{ctrl.vm.chatRoomCreated}}</a>
+            
+     .row
+      .col-md-12
+      
+        h3.text-center Create a One to One Room
+        p Here you can create a new room and share with only one person
+        form#createRoom(novalidate='')
+          .row
+            .form-group.col-xs-12
+              button.btn.btn-success.btn-lg(type='submit',ng-click="ctrl.create1to1Room(ctrl.vm.username1to1Chat)") Create a One To One Room
+          .well.well-sm(ng-if="ctrl.vm.chat1to1Created != null") 
+            <a href="{{ctrl.vm.chat1to1Created}}" target="_blank">http://www.wetalki.com{{ctrl.vm.chat1to1Created}}</a>  
 section#find-partner
   .container
     .row
@@ -147,11 +115,6 @@ section#find-partner
       .col-md-12
         p Here you can find a partner by filling the form bellow
         form#contactForm(name='sentMessage', novalidate='')
-          .row.control-group
-            .form-group.col-xs-12.floating-label-form-group.controls
-              label Enter your username
-              input#name.form-control(type='text', ng-model="ctrl.vm.username" placeholder='Username', required='', data-validation-required-message='Please enter your username.')
-              p.help-block.text-danger
           .row.control-group
             .form-group.col-md-4.col-xs-12.floating-label-form-group.controls
               label Choose the language you want to talk
@@ -175,18 +138,18 @@ section#find-partner
             .form-group.col-xs-12.col-md-4.floating-label-form-group.controls
               label Choose your sex
               select#language.form-control.col-md-4(required='', ng-model="ctrl.vm.userSex" data-validation-required-message='Please choose your sex.')
-                option Select your sex
-                option Male 
-                option Female 
+                option(value="") Select your sex
+                option(value="m") Male 
+                option(value="f") Female 
               p.help-block.text-danger
           .row.control-group
             .form-group.col-xs-12.col-md-4.floating-label-form-group.controls
               label Choose the sex of your partner
               select#language.form-control.col-md-4(required='',  ng-model="ctrl.vm.partnerSex", data-validation-required-message='Please choose your sex.')
-                option Select the sex of your partner
-                option Any
-                option Male 
-                option Female 
+                option(value="") Select the sex of your partner
+                option(value="a")  Any
+                option(value="m") Male 
+                option(value="f") Female 
               p.help-block.text-danger
           br
           .row
@@ -206,10 +169,11 @@ section#about.success
         p
           | Wetalki is a website which provides you a way to practice languages with people from all over the world.
           | We have many rooms available to you where you can choose the language and the topic of interest.
-          | We also have a way to connect with someone who wants to talk the same language that you want.
+        
       .col-lg-4
         p
-          | We provide everything for free. We just have some advertises on the page in order to get money to keep our site online.
+          | We also have a way to connect with someone who wants to talk the same language that you want.
+          | We provide everything for free
 
 // Footer
 footer.text-center
@@ -221,13 +185,13 @@ footer.text-center
           p
             | By using the Wetalki Web site, and/or related products and/or services ("Wetalki", provided by Wetalki.com),
             | you agree to the 
-            a  terms of service 
+            a(href="/termsofservice.html", target="_blank")  terms of service 
             | .
         .footer-col.col-md-4
           h3 Around the Web
           ul.list-inline
             li
-              a.btn-social.btn-outline(href='#')
+              a.btn-social.btn-outline(href='https://www.facebook.com/Wetalki-Languages-1094680307255625/',target="_blank")
                 i.fa.fa-fw.fa-facebook
             //
               <li>

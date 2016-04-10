@@ -1,3 +1,4 @@
+app.constant("moment", moment);
 app.controller('IndexController', ['$scope', '$location', 'LanguageService', 'RoomService', 'lodash', function($scope, $location, LanguageService, RoomService, lodash) {
     var self = this;
     var socket = io('/');
@@ -39,8 +40,22 @@ app.controller('IndexController', ['$scope', '$location', 'LanguageService', 'Ro
         if (roomNameToCreate == null || roomNameToCreate.trim() == '') {
             return false;
         }
-        self.vm.chatRoomCreated = 'www.wetalki.com/chatroom/' + roomNameToCreate.toLowerCase().replace(/\s+/g, '-');
+        self.vm.chatRoomCreated = '/chatroom/' + roomNameToCreate.toLowerCase().replace(/\s+/g, '-');
     }
+    this.create1to1Room = function() {
+        // var username = username1to1Chat || "";
+        // username = username.trim().replace(/\s+/g, '-');
+
+        
+        // if (lodash.isEmpty(username)) {
+        //     return false;
+        // }
+        
+        var roomName = 'room' + moment().valueOf();
+        
+        self.vm.chat1to1Created = '/chat1to1/' + roomName;
+    }
+
 
     this.loadRooms = function(langCode, topic) {
         RoomService.getAllRoomsByLanguageAndTopic(langCode, topic)
@@ -50,19 +65,18 @@ app.controller('IndexController', ['$scope', '$location', 'LanguageService', 'Ro
     }
 
     this.findPartner = function(username, selectedLanguage, userSex, partnerSex) {
-        username = username.trim()
         selectedLanguage = selectedLanguage.trim();
         userSex = userSex.trim();
         partnerSex = partnerSex.trim();
 
-        if (lodash.isEmpty(username) ||
+        if (
             lodash.isEmpty(selectedLanguage) ||
             lodash.isEmpty(userSex) ||
             lodash.isEmpty(partnerSex)) {
             return false;
         }
 
-        window.open("/chat/" + username + '/' + selectedLanguage + '/' + userSex + '/' + partnerSex, '_blank');
+        window.open("/chat/" + selectedLanguage + '/' + userSex + '/' + partnerSex, '_blank');
     }
 
     this.joinRoom = function(room) {
