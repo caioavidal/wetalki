@@ -1,7 +1,7 @@
 app.constant("moment", moment);
 app.controller('IndexController', ['$scope', '$location', 'LanguageService', 'RoomService', 'lodash', function($scope, $location, LanguageService, RoomService, lodash) {
     var self = this;
-    var socket = io('http://wss.wetalki.com');
+    var socket = io('https://wetalkidev.herokuapp.com');
     self.vm = new IndexViewModel();
 
 
