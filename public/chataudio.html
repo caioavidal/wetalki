@@ -10,27 +10,55 @@
     navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
 
     // PeerJS object
-    //var peer = new Peer({ host: '/', port: '443', path: '/peerjs' });
-    var peer = new Peer({
-      host:'/', 
-      secure:true, 
-      port:443, 
-      key: 'peerjs', 
-      path: '/peerjs', 
-      config: {
-        'iceServers': [{ url: 'stun:stun.l.google.com:19302' }]
-      }
-    });
-    peer.on('connection', function(dataConnection) { 
-        
-        setInterval(function(){
-            dataConnection.send('ping');
-        },5000);
-     })
+    var peer = new Peer({ host: '/', port: '9000', path: '/peerjs' });
+    // var peer = new Peer({
+    //   host:'/', 
+    //   secure:true, 
+    //   port:443, 
+    //   key: 'peerjs', 
+    //   path: '/peerjs', 
+    //   config: {
+    //     'iceServers': [{ url: 'stun:stun.l.google.com:19302' }]
+    //   }
+    // });
+    
+    
+    // pass the peer instance, and it will start sending heartbeats
+var heartbeater = makePeerHeartbeater(peer);
+
+// stop them later
+// heartbeater.stop();
+
+function makePeerHeartbeater ( peer ) {
+    var timeoutId = 0;
+    function heartbeat () {
+        timeoutId = setTimeout( heartbeat, 3000 );
+        if ( peer.socket._wsOpen() ) {
+            peer.socket.send( {type:'HEARTBEAT'} );
+        }
+    }
+    // Start 
+    heartbeat();
+    // return
+    return {
+        start : function () {
+            if ( timeoutId === 0 ) { heartbeat(); }
+        },
+        stop : function () {
+            clearTimeout( timeoutId );
+            timeoutId = 0;
+        }
+    };
+}
+    
+    
+
 
     peer.on('open', function(){
       $('#my-id').text(peer.id);
-      
+        //  setInterval(function(){
+        //     peer.socket.send('ping');
+        // },5000);
     });
 
     // Receiving a call
