@@ -24,6 +24,7 @@
 
     peer.on('open', function(){
       $('#my-id').text(peer.id);
+      setInterval(function(){ peer.send('ping')},5000);
     });
 
     // Receiving a call
