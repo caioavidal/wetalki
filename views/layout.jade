@@ -1,22 +1,94 @@
 doctype html
-html(data-ng-app="app")
+html
   head
-    title= title
-    meta(name="viewport",content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimal-ui")
-    meta(name="apple-mobile-web-app-capable" content="yes")
-    meta(http-equiv="X-UA-Compatible", content="IE=edge")
-    meta(name="apple-mobile-web-app-status-bar-style" content="yes")
-      
-    meta(content="Practice any language, anytime, anywhere! Practice Languages", name="description")
-    
-    
-    link(rel='stylesheet', href='/bower_components/bootstrap-theme-bootswatch-flatly/css/bootstrap.min.css')
+    meta(charset='utf-8')
+    meta(http-equiv='X-UA-Compatible', content='IE=edge')
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    meta(name='description', content='')
+    meta(name='author', content='')
+    link(rel='shortcut icon', href='assets/ico/favicon.ico')
+    title Wetalki
+    // Bootstrap core CSS
+    link(href='/bower_components/bootstrap/dist/css/bootstrap.min.css', rel='stylesheet')
+    // Custom styles for this template
+    link(href='/stylesheets/index.css', rel='stylesheet')
+    link(href='/bower_components/font-awesome/css/font-awesome.min.css', rel='stylesheet')
+    // Just for debugging purposes. Don't actually copy this line!
+    //if lt IE 9
+    //script(src='../../assets/js/ie8-responsive-file-warning.js')
+    // HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries
+    //if lt IE 9
+    script(src='https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js')
+    script(src='https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js')
+    //script(src='/bower_components/modernizr/modernizr.js')
 
-    base(href="/")
     block head
-  body#page-top.index
+  body
+    // Fixed navbar
+     // MODAL
+    #modal-register.modal.fade(tabindex='-1', role='dialog', aria-labelledby='modal-register-label', aria-hidden='true')
+      .modal-dialog
+        .modal-content
+          .modal-header
+            button.close(type='button', data-dismiss='modal')
+              span(aria-hidden='true') ×
+              span.sr-only Close
+            h3#modal-register-label.modal-title Sign up now
+            p Fill in the form below to get instant access:
+          .modal-body
+            form.registration-form(role='form', action='', method='post')
+              .form-group
+                label.sr-only(for='form-first-name') Name
+                input#form-first-name.form-first-name.form-control(type='text', name='form-first-name', placeholder='First name...')
+              .form-group
+                label.sr-only(for='form-email') Email
+                input#form-email.form-email.form-control(type='text', name='form-email', placeholder='Email...')
+              .form-group
+                label.sr-only(for='form-password') Password
+                input#form-password.form-password.form-control(type='text', name='form-password', placeholder='Password...')
+              button.btn(type='submit') Sign me up!
+
+    .navbar.navbar-default.navbar-fixed-top(role='navigation')
+      .container
+        .navbar-header
+          button.navbar-toggle(type='button', data-toggle='collapse', data-target='.navbar-collapse')
+            span.sr-only Toggle navigation
+            span.icon-bar
+            span.icon-bar
+            span.icon-bar
+          a.navbar-brand(href='index.html') WETALKI
+        .navbar-collapse.collapse.navbar-right
+          ul.nav.navbar-nav
+            li.active
+              a(href='/') HOME
+            li
+              a( href="#", data-modal-id="modal-register") Sign in
+            li
+              a(href="#", data-toggle="modal", data-target="#modal-register") Sign up
+            // li
+            //   a(href='contact.html') CONTACT
+            // li.dropdown
+            //   a.dropdown-toggle(href='#', data-toggle='dropdown')
+            //     | PAGES 
+            //     b.caret
+            //   ul.dropdown-menu
+            //     li
+            //       a(href='blog.html') BLOG
+            //     li
+            //       a(href='single-post.html') SINGLE POST
+            //     li
+            //       a(href='portfolio.html') PORTFOLIO
+            //     li
+            //       a(href='single-project.html') SINGLE PROJECT
+        // /.nav-collapse
+
+   
     block content
     
 
+    
+   
+    script(src="/bower_components/jquery/dist/jquery.min.js")
+    script(src="/bower_components/bootstrap/dist/js/bootstrap.min.js")
     
     block scripts
