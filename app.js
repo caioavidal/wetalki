@@ -6,10 +6,13 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
+var db = require('./model/db');
+
 var routes = require('./routes');
 var index = require('./routes/index');
 var chat = require('./routes/chat');
 var api = require('./routes/api');
+var user = require('./routes/user');
 
 
 var app = express();
@@ -35,6 +38,10 @@ app.use('/bower_components', express.static(path.join(__dirname , 'bower_compone
 app.use('/', index);
 //app.use('/chat', chat);
 app.get('/api/laguanges', api.languages);
+
+//user
+app.post('/user',user.create);
+
 app.get('/partials/:name', routes.partials);
 
 app.get('*', routes.index);

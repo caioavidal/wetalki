@@ -1,31 +1,33 @@
-   // jQuery for page scrolling feature - requires jQuery Easing plugin
-        $(function() {
-            $('body').on('click', '.page-scroll a', function(event) {
-                var $anchor = $(this);
-                $('html, body').stop().animate({
-                    scrollTop: $($anchor.attr('href')).offset().top
-                }, 1500, 'easeInOutExpo');
-                event.preventDefault();
+$(function() {
+
+
+    var User = function() {
+        this.name = "";
+        this.email = "";
+        this.password = "";
+    };
+
+
+    User.prototype = {
+        signUp: function() {
+
+            $.post("/user", this, function(data) {
+                console.log(data);
             });
-        });
+        }
+    }
 
-        // Floating label headings for the contact form
-        $(function() {
-            $("body").on("input propertychange", ".floating-label-form-group", function(e) {
-                $(this).toggleClass("floating-label-form-group-with-value", !! $(e.target).val());
-            }).on("focus", ".floating-label-form-group", function() {
-                $(this).addClass("floating-label-form-group-with-focus");
-            }).on("blur", ".floating-label-form-group", function() {
-                $(this).removeClass("floating-label-form-group-with-focus");
-            });
-        });
+    $("#btnSignUp").click(function() {
 
-        // Highlight the top nav as scrolling occurs
-        $('body').scrollspy({
-            target: '.navbar-fixed-top'
-        })
+        var user = new User();
+        user.name = $("#modal-register #name").val();
+        user.email = $("#modal-register #email").val();
+        user.password = $("#modal-register #password").val();
+        
+        user.signUp();
 
-        // Closes the Responsive Menu on Menu Item Click
-        $('.navbar-collapse ul li a:not(.dropdown-toggle)').click(function() {
-            $('.navbar-toggle:visible').click();
-        });
+    });
+
+});
+
+

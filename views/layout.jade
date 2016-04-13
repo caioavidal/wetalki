@@ -18,8 +18,8 @@ html
     //script(src='../../assets/js/ie8-responsive-file-warning.js')
     // HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries
     //if lt IE 9
-    script(src='https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js')
-    script(src='https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js')
+    //script(src='https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js')
+    //script(src='https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js')
     //script(src='/bower_components/modernizr/modernizr.js')
 
     block head
@@ -36,17 +36,18 @@ html
             h3#modal-register-label.modal-title Sign up now
             p Fill in the form below to get instant access:
           .modal-body
-            form.registration-form(role='form', action='', method='post')
+            //form.registration-form(role='form', action='', method='post')
+            .registration-form
               .form-group
                 label.sr-only(for='form-first-name') Name
-                input#form-first-name.form-first-name.form-control(type='text', name='form-first-name', placeholder='First name...')
+                input#name.form-first-name.form-control(type='text', name='form-first-name', placeholder='First name...', rv-input="user.name")
               .form-group
                 label.sr-only(for='form-email') Email
-                input#form-email.form-email.form-control(type='text', name='form-email', placeholder='Email...')
+                input#email.form-email.form-control(type='email', name='form-email', placeholder='Email...',rv-input="user.email")
               .form-group
                 label.sr-only(for='form-password') Password
-                input#form-password.form-password.form-control(type='text', name='form-password', placeholder='Password...')
-              button.btn(type='submit') Sign me up!
+                input#password.form-password.form-control(type='password', name='form-password', placeholder='Password...',rv-input="user.password")
+              button#btnSignUp.btn Sign me up!
 
     .navbar.navbar-default.navbar-fixed-top(role='navigation')
       .container
@@ -90,5 +91,7 @@ html
    
     script(src="/bower_components/jquery/dist/jquery.min.js")
     script(src="/bower_components/bootstrap/dist/js/bootstrap.min.js")
+    //script(src="/bower_components/rivets/dist/rivets.bundled.min.js")
+    script(src="/javascripts/index.js")
     
     block scripts
