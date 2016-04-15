@@ -411,6 +411,10 @@ csmall2 {
     -o-background-size: cover;
     background-size: cover;
 }
+.navbar-default .navbar-nav>li>a:focus, .navbar-default .navbar-nav>li>a:hover {
+    color: #FFFFFF;
+    
+}
 
 /* Blog Page */
 .popular-posts { 
