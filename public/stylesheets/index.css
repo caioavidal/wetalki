@@ -412,7 +412,7 @@ csmall2 {
     background-size: cover;
 }
 .navbar-default .navbar-nav>li>a:focus, .navbar-default .navbar-nav>li>a:hover {
-    color: #FFFFFF;
+    color: #FFFFFF !important;
     
 }
 
