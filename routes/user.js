@@ -12,17 +12,16 @@ exports.create = function (req, res) {
     });
     user.isDataValid(function (err, message) {
 
-        if (err) { res.status(500).send(message); return false; }
+        if (err) {return  res.status(500).send(message);}
 
         User.register(user, req.body.password, function (err, account) {
             if (err) {
-                res.status(500).send(err.message);
-                return false;
+                return res.status(500).send(err.message);
             }
 
             passport.authenticate('local')(req, res, function () {
-                res.sendStatus(200);
-                return false;
+                return res.sendStatus(200);
+                
             });
         });
     });
@@ -35,7 +34,12 @@ exports.create = function (req, res) {
 
 exports.login = function (req, res) {
     passport.authenticate('local', function(err, user, info) {
-        res.sendStatus(200);
-        return false;
-    });
+          if(error) {
+            return res.status(500).json(error);
+        }
+        if(!user) {
+            return res.status(401).json(info.message);
+        }
+        res.json(user);
+    })(req, res, next);;
 }
