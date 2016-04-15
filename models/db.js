@@ -6,8 +6,11 @@ var mongoose = require( 'mongoose' );
 
 var dbURI = process.env.MONGOLAB_URI;
 
+var options = { server: { socketOptions: { keepAlive: 300000, connectTimeoutMS: 30000 } }, 
+                replset: { socketOptions: { keepAlive: 300000, connectTimeoutMS : 30000 } } };       
+
 // Create the database connection 
-mongoose.connect(dbURI); 
+mongoose.connect(dbURI,options); 
 
 // CONNECTION EVENTS
 // When successfully connected
