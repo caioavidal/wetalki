@@ -4,7 +4,7 @@ var mongoose = require( 'mongoose' );
 // Build the connection string 
 //var dbURI = 'mongodb://localhost/test'; 
 
-var dbURI = {'url' : process.env.MONGOLAB_URI };
+var dbURI = {'url' : 'mongodb://heroku_k0bjb0t2:okksgs1kdsrke9nf2hd91k60vr@ds023480.mlab.com:23480/heroku_k0bjb0t2' };
 
 console.log(dbURI);
 
