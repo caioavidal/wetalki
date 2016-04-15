@@ -4,7 +4,7 @@ var mongoose = require( 'mongoose' );
 // Build the connection string 
 //var dbURI = 'mongodb://localhost/test'; 
 
-var dbURI = {'url' : 'mongodb://heroku_k0bjb0t2:okksgs1kdsrke9nf2hd91k60vr@ds023480.mlab.com:23480/heroku_k0bjb0t2' };
+var dbURI ='mongodb://heroku_k0bjb0t2:okksgs1kdsrke9nf2hd91k60vr@ds023480.mlab.com:23480/heroku_k0bjb0t2';
 
 console.log(dbURI);
 
@@ -12,7 +12,7 @@ var options = { server: { socketOptions: { keepAlive: 300000, connectTimeoutMS: 
                 replset: { socketOptions: { keepAlive: 300000, connectTimeoutMS : 30000 } } };       
 
 // Create the database connection 
-mongoose.connect(dbURI); 
+mongoose.connect(dbURI,options); 
 
 // CONNECTION EVENTS
 // When successfully connected
