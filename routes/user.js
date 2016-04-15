@@ -34,8 +34,8 @@ exports.create = function (req, res) {
 
 exports.login = function (req, res) {
     passport.authenticate('local', function(err, user, info) {
-          if(error) {
-            return res.status(500).json(error);
+          if(err) {
+            return res.status(500).json(err);
         }
         if(!user) {
             return res.status(401).json(info.message);
