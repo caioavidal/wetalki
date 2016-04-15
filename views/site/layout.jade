@@ -26,18 +26,21 @@ html
   body
     // Fixed navbar
      // MODAL
-    #modal-register.modal.fade(tabindex='-1', role='dialog', aria-labelledby='modal-register-label', aria-hidden='true')
+    #modal-register.signup-modal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='modal-register-label', aria-hidden='true')
       .modal-dialog
         .modal-content
           .modal-header
-            button.close(type='button', data-dismiss='modal')
-              span(aria-hidden='true') ×
-              span.sr-only Close
-            h3#modal-register-label.modal-title Sign up now
-            p Fill in the form below to get instant access:
+            .title-container(style="padding:15px")
+              button.close(type='button', data-dismiss='modal')
+                span(aria-hidden='true') ×
+                span.sr-only Close
+              h3#modal-register-label.modal-title Sign up now
+          .error-container
+            span.error-message
           .modal-body
             //form.registration-form(role='form', action='', method='post')
-            .registration-form
+           
+            form.registration-form(role='form', action='', method='post')
               .form-group
                 label.sr-only(for='form-first-name') Name
                 input#name.form-first-name.form-control(type='text', name='form-first-name', placeholder='First name...', rv-input="user.name")
@@ -48,6 +51,29 @@ html
                 label.sr-only(for='form-password') Password
                 input#password.form-password.form-control(type='password', name='form-password', placeholder='Password...',rv-input="user.password")
               button#btnSignUp.btn Sign me up!
+
+    #modal-login.login-modal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='modal-register-label', aria-hidden='true')
+      .modal-dialog
+        .modal-content
+          .modal-header
+            .title-container(style="padding:15px")
+              button.close(type='button', data-dismiss='modal')
+                span(aria-hidden='true') ×
+                span.sr-only Close
+              h3#modal-register-label.modal-title Sign in
+          .error-container
+            span.error-message
+          .modal-body
+            //form.registration-form(role='form', action='', method='post')
+           
+            form.registration-form(role='form', action='', method='post')
+              .form-group
+                label.sr-only(for='form-email') Email
+                input#email.form-email.form-control(type='email', name='form-email', placeholder='Email...',rv-input="user.email")
+              .form-group
+                label.sr-only(for='form-password') Password
+                input#password.form-password.form-control(type='password', name='form-password', placeholder='Password...',rv-input="user.password")
+              button#btnSignIn.btn Sign me in!
 
     .navbar.navbar-default.navbar-fixed-top(role='navigation')
       .container
@@ -63,7 +89,7 @@ html
             li.active
               a(href='/') HOME
             li
-              a( href="#", data-modal-id="modal-register") Sign in
+              a( href="#",  data-toggle="modal", data-target="#modal-login") Sign in
             li
               a(href="#", data-toggle="modal", data-target="#modal-register") Sign up
             // li

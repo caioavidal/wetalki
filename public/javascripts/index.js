@@ -1,31 +1,88 @@
-$(function() {
+$(function () {
 
 
-    var User = function() {
+    var User = function () {
         this.name = "";
         this.email = "";
         this.password = "";
+        this.signUp = function () {
+
+            return $.post("/user", {
+                name: this.name,
+                email: this.email,
+                password: this.password
+            });
+        };
+        this.signIn = function () {
+
+            return $.post("/user/login", {
+                email: this.email,
+                password: this.password
+            });
+        }
     };
 
 
-    User.prototype = {
-        signUp: function() {
 
-            $.post("/user", this, function(data) {
-                console.log(data);
-            });
-        }
-    }
 
-    $("#btnSignUp").click(function() {
+
+    $("#btnSignUp").click(function () {
 
         var user = new User();
         user.name = $("#modal-register #name").val();
         user.email = $("#modal-register #email").val();
         user.password = $("#modal-register #password").val();
-        
-        user.signUp();
 
+        $("#btnSignUp").attr("disabled", "");
+        $("#btnSignUp").text("Signing up...");
+
+        user.signUp()
+            .done(function () {
+                $(".signup-modal .error-container").hide();
+            })
+            .fail(function (data) {
+                $(".signup-modal .error-container").show();
+                $(".signup-modal .error-container .error-message").text(data.responseText);
+            })
+            .always(function () {
+                $("#btnSignUp").removeAttr("disabled");
+                $("#btnSignUp").text("Sign up");
+
+            });
+
+    });
+    
+     $("#btnSignIn").click(function () {
+
+        var user = new User();
+        
+        user.email = $("#modal-login #email").val();
+        user.password = $("#modal-login #password").val();
+
+        $("#btnSignIn").attr("disabled", "");
+        $("#btnSignIn").text("Signing in...");
+
+        user.signIn()
+            .done(function () {
+                $(".login-modal .error-container").hide();
+            })
+            .fail(function (data) {
+                $(".login-modal .error-container").show();
+                $(".login-modal .error-container .error-message").text(data.responseText);
+            })
+            .always(function () {
+                $("#btnSignIn").removeAttr("disabled");
+                $("#btnSignIn").text("Sign in");
+
+            });
+
+    });
+
+    
+
+    $('.modal').on('hidden.bs.modal', function (e) {
+        $(this).find('form')[0].reset();
+        $(this).find('.error-container').hide();
     });
 
 });

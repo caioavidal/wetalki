@@ -32,4 +32,4 @@ process.on('SIGINT', function() {
 }); 
 
 // BRING IN YOUR SCHEMAS & MODELS // For example 
-require('./../model/user');   
+require('./../models/user');   
