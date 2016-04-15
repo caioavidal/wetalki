@@ -4,7 +4,7 @@ var mongoose = require( 'mongoose' );
 // Build the connection string 
 //var dbURI = 'mongodb://localhost/test'; 
 
-var dbURI = process.env.MONGOLAB_URI;
+var dbURI = {'url' : process.env.MONGOLAB_URI };
 
 var options = { server: { socketOptions: { keepAlive: 300000, connectTimeoutMS: 30000 } }, 
                 replset: { socketOptions: { keepAlive: 300000, connectTimeoutMS : 30000 } } };       
