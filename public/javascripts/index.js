@@ -37,12 +37,18 @@ $(function () {
         $("#btnSignUp").text("Signing up...");
 
         user.signUp()
-            .done(function () {
+            .done(function (token) {
                 $(".signup-modal .error-container").hide();
+                window.sessionStorage.token = token;
+                top.location.href= '/dashboard';
             })
             .fail(function (data) {
+                var errorMessage = data.responseJSON;
+
+          
+
                 $(".signup-modal .error-container").show();
-                $(".signup-modal .error-container .error-message").text(data.responseText);
+                $(".signup-modal .error-container .error-message").text(errorMessage);
             })
             .always(function () {
                 $("#btnSignUp").removeAttr("disabled");
@@ -51,11 +57,11 @@ $(function () {
             });
 
     });
-    
-     $("#btnSignIn").click(function () {
+
+    $("#btnSignIn").click(function () {
 
         var user = new User();
-        
+
         user.email = $("#modal-login #email").val();
         user.password = $("#modal-login #password").val();
 
@@ -63,12 +69,16 @@ $(function () {
         $("#btnSignIn").text("Signing in...");
 
         user.signIn()
-            .done(function () {
+            .done(function (token) {
                 $(".login-modal .error-container").hide();
+                window.sessionStorage.token = token;
+                top.location.href= '/dashboard';
             })
             .fail(function (data) {
+                var errorMessage = data.responseJSON;
+
                 $(".login-modal .error-container").show();
-                $(".login-modal .error-container .error-message").text(data.responseText);
+                $(".login-modal .error-container .error-message").text(errorMessage);
             })
             .always(function () {
                 $("#btnSignIn").removeAttr("disabled");
@@ -78,7 +88,7 @@ $(function () {
 
     });
 
-    
+
 
     $('.modal').on('hidden.bs.modal', function (e) {
         $(this).find('form')[0].reset();

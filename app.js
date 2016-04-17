@@ -1,5 +1,9 @@
 var express = require('express');
 
+
+var expressJwt = require('express-jwt');
+var authenticate = expressJwt({secret : process.env.SECRET});
+
 var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
@@ -16,6 +20,7 @@ var index = require('./routes/index');
 var chat = require('./routes/chat');
 var api = require('./routes/api');
 var user = require('./routes/user');
+var dashboard = require('./routes/dashboard');
 
 
 var app = express();
@@ -52,6 +57,11 @@ passport.deserializeUser(User.deserializeUser());
 
 
 app.use('/', index);
+
+app.use('/dashboard', dashboard);
+
+app.use('/dashboard/*',authenticate, dashboard);
+
 //app.use('/chat', chat);
 app.get('/api/laguanges', api.languages);
 
@@ -61,7 +71,9 @@ app.post('/user/login', user.login);
 
 app.get('/partials/:name', routes.partials);
 
+
 app.get('*', routes.index);
+
 
 
 
@@ -83,10 +95,12 @@ app.use(function (req, res, next) {
 if (app.get('env') === 'development') {
   app.use(function (err, req, res, next) {
     res.status(err.status || 500);
-    res.render('error', {
-      message: err.message,
-      error: err
-    });
+    // res.render('error', {
+    //   message: err.message,
+    //   error: err
+    // });
+    console.log(err);
+    res.status(500).send("Sorry, an unexpected error has occurred :(");
   });
 }
 
@@ -94,10 +108,13 @@ if (app.get('env') === 'development') {
 // no stacktraces leaked to user
 app.use(function (err, req, res, next) {
   res.status(err.status || 500);
-  res.render('error', {
-    message: err.message,
-    error: {}
-  });
+  // res.render('error', {
+  //   message: err.message,
+  //   error: {}
+  // });
+  //res.sendStatus(500);
+  console.log(err);
+  res.status(500).send("Sorry, an unexpected error has occurred :(");
 });
 
 

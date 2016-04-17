@@ -1,0 +1,38 @@
+
+<div style="width:450px;" class="box box-info" data-drag="true" jqyoui-draggable >
+  <div style="cursor:move" class="box-header with-border">
+    <h3 class="box-title">Online Users</h3>
+    <div class="box-tools pull-right">
+      <button type="button" data-widget="collapse" class="btn btn-box-tool"><i class="fa fa-minus"></i></button>
+      <button ng-click="vm.show = false;" type="button"  class="btn btn-box-tool"><i class="fa fa-times"></i></button>
+    </div>
+  </div>
+  <!-- /.box-header-->
+  <div class="box-body">
+    <div class="table-responsive">
+      <table class="table no-margin">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Learn</th>
+            <th>Speak</th>
+            <th>Status</th>
+            <th>Chat</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr data-ng-repeat="user in vm.usersOnline">
+            <td><a href="#"> {{::user.name}}</a></td>
+            <td>English</td>
+            <td>Portuguese</td>
+            <td> <span class="label label-success">Online</span></td>
+            <td><a href="#" data-ng-click="vm.chat(user.socketId);">Chat</a></td>
+          </tr>
+         
+        </tbody>
+      </table>
+    </div>
+    <!-- /.table-responsive-->
+  </div>
+  <!-- /.box-body-->
+</div>

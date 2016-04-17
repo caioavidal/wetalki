@@ -1,24 +1,27 @@
-#!/usr/bin/env node
+//#!/usr/bin/env node
 
 /**
  * Module dependencies.
  */
 
+require('dotenv').config();
+
 var app = require('../app');
 var debug = require('debug')('wetalki:server');
 var http = require('http');
 var crypto = require('crypto');
-var Room = require('../domain/models/room.js')
-var RoomService = require('../domain/services/roomService.js')
 
-var _ = require('lodash');
+
+//var _ = require('lodash');
+
+
 
 
 /**
  * Get port from environment and store in Express.
  */
 
-var port = normalizePort(process.env.PORT || '3000');
+var port = normalizePort(process.env.PORT || '8080');
 app.set('port', port);
 
 /**
@@ -27,172 +30,174 @@ app.set('port', port);
 
 var server = http.Server(app);
 
-var io = require('socket.io')(server);
-var clients = io.sockets.sockets;
-var rooms = io.sockets.adapter.rooms;
+var socketServer = require('../socket.io/socket.js')(server);
+
+// var io = require('socket.io')(server);
+// var clients = io.sockets.sockets;
+// var rooms = io.sockets.adapter.rooms;
 
 
 
-io.on('connection', function(socket) {
+// io.on('connection', function(socket) {
 
-    console.log('user connected: ' + socket.id);
+//     console.log('user connected: ' + socket.id);
 
-    //var qtdNumUsersOnline = 50 + new Date().getHours() * 2;
-    socket.emit("numUsersOnline", Object.keys(clients).length);
-    //socket.emit("numUsersOnline", qtdNumUsersOnline); //remove, it is just for marketing purpose
+//     //var qtdNumUsersOnline = 50 + new Date().getHours() * 2;
+//     socket.emit("numUsersOnline", Object.keys(clients).length);
+//     //socket.emit("numUsersOnline", qtdNumUsersOnline); //remove, it is just for marketing purpose
 
 
-    socket.on("forceDisconnect", function() {
-        socket.emit("disconnected", false);
-        socket.disconnect();
-    });
+//     socket.on("forceDisconnect", function() {
+//         socket.emit("disconnected", false);
+//         socket.disconnect();
+//     });
     
-       socket.on("forceDisconnectRoom", function() {
-        io.in(socket.room).emit("disconnected",  socket.username);
-        socket.disconnect();
-    });
+//        socket.on("forceDisconnectRoom", function() {
+//         io.in(socket.room).emit("disconnected",  socket.username);
+//         socket.disconnect();
+//     });
 
-    socket.on('disconnect', function() {
-        console.log('user disconnected: ' + socket.id);
+//     socket.on('disconnect', function() {
+//         console.log('user disconnected: ' + socket.id);
 
-        if (socket.partner != null) {
-            socket.to(socket.partner.id).emit("disconnected", true);
-        }
-        if(socket.room != null){
-           io.in(socket.room).emit("disconnected",  socket.username);
-        }
+//         if (socket.partner != null) {
+//             socket.to(socket.partner.id).emit("disconnected", true);
+//         }
+//         if(socket.room != null){
+//            io.in(socket.room).emit("disconnected",  socket.username);
+//         }
 
-    });
+//     });
 
-    socket.on('joinRoom', function(data) {
+//     socket.on('joinRoom', function(data) {
 
-        var username = data.username.trim();
-        var roomName = data.room.trim();
-        var room = rooms[roomName]
+//         var username = data.username.trim();
+//         var roomName = data.room.trim();
+//         var room = rooms[roomName]
 
-        //todo: botar validação do username
-        if (username.length < 3) {
-            socket.emit("roomError", "Your username must have at least 3 characters");
-            return false;
-        }
+//         //todo: botar validação do username
+//         if (username.length < 3) {
+//             socket.emit("roomError", "Your username must have at least 3 characters");
+//             return false;
+//         }
 
-        if (room != null) {
+//         if (room != null) {
 
-            var jsonString = '{ "username": "' + username + '", "rooms": { "' + roomName + '" : "' + roomName + '"} }';
-            var socketFound = _.findKey(clients, JSON.parse(jsonString));
-            if (socketFound != null) { //Already exists a username
-                socket.emit("roomError", "Your username is in use by another user");
-                return false;
+//             var jsonString = '{ "username": "' + username + '", "rooms": { "' + roomName + '" : "' + roomName + '"} }';
+//             var socketFound = _.findKey(clients, JSON.parse(jsonString));
+//             if (socketFound != null) { //Already exists a username
+//                 socket.emit("roomError", "Your username is in use by another user");
+//                 return false;
 
-            }
-        }
+//             }
+//         }
 
-        socket.username = username;
-        socket.join(roomName);
-        socket.room = roomName;
+//         socket.username = username;
+//         socket.join(roomName);
+//         socket.room = roomName;
         
-        var roomOnlineUsers = [];
-        if(room != null){
+//         var roomOnlineUsers = [];
+//         if(room != null){
             
-            var socketsIds = _.keys(room.sockets);
-            _.forEach(socketsIds, function(value){
-                roomOnlineUsers.push(clients[value].username);
-            });
-        }else{
-            roomOnlineUsers.push(username);
-        }
+//             var socketsIds = _.keys(room.sockets);
+//             _.forEach(socketsIds, function(value){
+//                 roomOnlineUsers.push(clients[value].username);
+//             });
+//         }else{
+//             roomOnlineUsers.push(username);
+//         }
         
         
         
-        io.in(roomName).emit("joinned", { username, roomOnlineUsers});
+//         io.in(roomName).emit("joinned", { username, roomOnlineUsers});
 
-    });
+//     });
 
-    socket.on("listRooms", function(data) {
-        var lang = data.lang;
-        var topic = data.topic;
+//     socket.on("listRooms", function(data) {
+//         var lang = data.lang;
+//         var topic = data.topic;
 
-        var existingRooms = _.filter(rooms, { 'isRoom': true, 'lang': lang, 'topic': topic });
+//         var existingRooms = _.filter(rooms, { 'isRoom': true, 'lang': lang, 'topic': topic });
 
-        if (existingRooms == null) {
-            existingRooms = [];
-        }
+//         if (existingRooms == null) {
+//             existingRooms = [];
+//         }
 
-        var createdRooms = [];
+//         var createdRooms = [];
 
-        for (var i = 0; i < 5; i++) {
-            if (existingRooms[i] != null) {
-                createdRooms.push({
-                    name: existingRooms[i].name,
-                    numUsers: existingRooms[i].sockets.length
-                });
-            } else {
-                createdRooms.push({
-                    name: lang + '-' + topic + '-' + (i + 1).toString(),
-                    numUsers: 0
-                });
-            }
-        }
+//         for (var i = 0; i < 5; i++) {
+//             if (existingRooms[i] != null) {
+//                 createdRooms.push({
+//                     name: existingRooms[i].name,
+//                     numUsers: existingRooms[i].sockets.length
+//                 });
+//             } else {
+//                 createdRooms.push({
+//                     name: lang + '-' + topic + '-' + (i + 1).toString(),
+//                     numUsers: 0
+//                 });
+//             }
+//         }
 
-        socket.emit('listRooms', createdRooms);
-    });
+//         socket.emit('listRooms', createdRooms);
+//     });
 
 
-    socket.on('roomMessage', function(msg) {
+//     socket.on('roomMessage', function(msg) {
 
-        if (msg.trim() === "") {
-            return;
-        }
+//         if (msg.trim() === "") {
+//             return;
+//         }
 
         
-        io.in(socket.room).emit('roomMessage', {username:socket.username,
-             msg: msg});
-    });
-    socket.on('message', function(msg) {
+//         io.in(socket.room).emit('roomMessage', {username:socket.username,
+//              msg: msg});
+//     });
+//     socket.on('message', function(msg) {
 
-        if (msg.trim() === "") {
-            return;
-        }
+//         if (msg.trim() === "") {
+//             return;
+//         }
 
-        socket.to(socket.partner.id).emit("message", { msg: msg, fromPartner: true });
-        socket.emit("message", { msg: msg, fromPartner: false });
-    });
+//         socket.to(socket.partner.id).emit("message", { msg: msg, fromPartner: true });
+//         socket.emit("message", { msg: msg, fromPartner: false });
+//     });
 
-    socket.on('language', function(lang) {
+//     socket.on('language', function(lang) {
 
-        for (var key in clients) {
-            var targetSocket = clients[key];
+//         for (var key in clients) {
+//             var targetSocket = clients[key];
 
-            if (targetSocket.id == socket.id)
-                continue;
+//             if (targetSocket.id == socket.id)
+//                 continue;
 
-            if (targetSocket.isWaiting && targetSocket.lang == lang) {
+//             if (targetSocket.isWaiting && targetSocket.lang == lang) {
 
-                targetSocket.isWaiting = false;
+//                 targetSocket.isWaiting = false;
 
-                socket.to(targetSocket.id).emit("gochat", socket.id);
-                socket.emit("gochat", targetSocket.id);
+//                 socket.to(targetSocket.id).emit("gochat", socket.id);
+//                 socket.emit("gochat", targetSocket.id);
 
-                socket.isWaiting = false;
-                socket.lang = lang;
+//                 socket.isWaiting = false;
+//                 socket.lang = lang;
 
-                socket.partner = targetSocket;
-                targetSocket.partner = socket;
+//                 socket.partner = targetSocket;
+//                 targetSocket.partner = socket;
 
-                return;
-            }
-        }
+//                 return;
+//             }
+//         }
 
-        socket.isWaiting = true;
-        socket.lang = lang;
+//         socket.isWaiting = true;
+//         socket.lang = lang;
 
-    });
+//     });
 
-    socket.on('typing', function() {
-        socket.to(socket.partner.id).emit('typing');
-    });
+//     socket.on('typing', function() {
+//         socket.to(socket.partner.id).emit('typing');
+//     });
 
-});
+// });
 
 
 
