@@ -13,6 +13,7 @@
       <table class="table no-margin">
         <thead>
           <tr>
+            <th></th>
             <th>Name</th>
             <th>Learn</th>
             <th>Speak</th>
@@ -22,8 +23,9 @@
         </thead>
         <tbody>
           <tr data-ng-repeat="user in vm.usersOnline">
+            <td><i class="fa fa-mars" style="color:#009FFF"></td>
             <td><a href="#"> {{::user.name}}</a></td>
-            <td>English</td>
+            <td style="-o-text-overflow: ellipsis;text-overflow:ellipsis;overflow:hidden;white-space:nowrap;width:37px"><span data-toggle="tooltip" data-placement="top" title="English, Portuguese, Spanish, French, Arabic, Koren" >English</span></td>
             <td>Portuguese</td>
             <td> <span class="label label-success">Online</span></td>
             <td><a href="#" data-ng-click="vm.chat(user.socketId);">Chat</a></td>
