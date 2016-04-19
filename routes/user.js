@@ -9,8 +9,7 @@ User = mongoose.model('User');
 exports.create = function (req, res, next) {
     var user = new User({
         name: req.body.name,
-        email: req.body.email,
-        password: req.body.password
+        email: req.body.email
     });
     user.isDataValid(function (err, message) {
 
