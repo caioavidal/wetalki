@@ -37,9 +37,10 @@ $(function () {
         $("#btnSignUp").text("Signing up...");
 
         user.signUp()
-            .done(function (token) {
+            .done(function (data) {
                 $(".signup-modal .error-container").hide();
-                window.sessionStorage.token = token;
+                window.sessionStorage.token = data.token;
+                window.sessionStorage.user = data.user;
                 top.location.href= '/dashboard';
             })
             .fail(function (data) {
@@ -69,9 +70,10 @@ $(function () {
         $("#btnSignIn").text("Signing in...");
 
         user.signIn()
-            .done(function (token) {
+            .done(function (data) {
                 $(".login-modal .error-container").hide();
-                window.sessionStorage.token = token;
+                window.sessionStorage.token = data.token;
+                window.sessionStorage.user = data.user;
                 top.location.href= '/dashboard';
             })
             .fail(function (data) {

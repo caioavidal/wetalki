@@ -21,6 +21,14 @@ head
   
   link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.1/animate.min.css')
   
+  script.
+    (function(){
+      if (!window.sessionStorage.token && !window.sessionStorage.user) {
+        location.href = '/';
+        return false;
+      }
+    })();
+  
   script(src="/bower_components/angular/angular.min.js")
   
   //if lt IE 9

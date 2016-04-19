@@ -6,7 +6,7 @@ var mongoose = require('mongoose'),
     passportLocalMongoose = require('passport-local-mongoose');
 User = mongoose.model('User');
 
-exports.create = function (req, res,next) {
+exports.create = function (req, res, next) {
     var user = new User({
         name: req.body.name,
         email: req.body.email,
@@ -26,26 +26,29 @@ exports.create = function (req, res,next) {
     });
 };
 
-function login(req,res,next){
-     passport.authenticate('local', function (err, user, info) {
+function login(req, res, next) {
+    passport.authenticate('local', function (err, user, info) {
         if (err) {
             return res.status(500).json("Sorry, an unexpected error has occurred :(");
         }
         if (!user) {
             return res.status(401).json(info.message);
         }
-        
+
         var user = {
             email: user._doc.email,
             name: user._doc.name
         }
 
-        var token = jwt.sign(user,process.env.SECRET, { expiresIn: 3600 * 12  }); //12 hours
+        var token = jwt.sign(user, process.env.SECRET, { expiresIn: 3600 * 12 }); //12 hours
 
-        res.json(token);
+        res.json({
+            token: token,
+            user: user
+        });
     })(req, res, next);;
 }
 
 exports.login = function (req, res, next) {
-  login(req, res, next);
+    login(req, res, next);
 }

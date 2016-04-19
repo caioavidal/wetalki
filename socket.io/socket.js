@@ -5,6 +5,8 @@ var socket = function (http) {
     var _ = require("lodash");
     var io = require('socket.io')(http);
 
+    var socketUser = require("../socket.io/socketUser.js");
+
     var socketioJwt = require('socketio-jwt');
 
     var connectedClients = io.sockets.sockets;
@@ -16,45 +18,38 @@ var socket = function (http) {
 
 
     var sendUsersOnline = function (socket) {
-        var socketIds = _.keys(connectedClients);
-
-        var usersOnline = [];
-
-        socketIds.forEach(function (socketId) {
-            usersOnline.push({
-                socketId: socketId,
-
-                name: connectedClients[socketId].decoded_token.name
-
-            });
-        })
-
+        var usersOnline = socketUser.getOnlineUsers(connectedClients);
         socket.emit('users online', usersOnline);
     };
 
+    var disconnectDuplicatedUser = function (socket) {
+        var user = socketUser.buildUser(socket);
+        var onlineUsers = socketUser.getOnlineUsers(connectedClients);
+
+
+        var userAlreadyConnected = _.find(onlineUsers, { id: user.id });
+
+        if (userAlreadyConnected != null && userAlreadyConnected.socketId != socket.id) {
+            connectedClients[userAlreadyConnected.socketId].disconnect();
+        }
+    }
+
+
+
     io.on('connection', function (socket) {
-
-        socket.broadcast.emit('user connected', {
-            socketId: socket.id,
-
-            name: socket.decoded_token.name
-
-        });
+        console.log("Socket connected: " + socket.id);
         
-        socket.emit('my info', {
-            socketId: socket.id,
-            name: socket.decoded_token.name
-        });
+        disconnectDuplicatedUser(socket);
 
+        socket.broadcast.emit('user connected', socketUser.buildUser(socket));
+
+        socket.emit('my info', socketUser.buildUser(socket));
+        
         sendUsersOnline(socket);
 
         socket.on('disconnect', function () {
-            io.sockets.emit('user disconnected', {
-                socketId: socket.id//,
-
-                //name: socket.decoded_token.name
-
-            });
+            console.log("Socket disconnected: " + socket.id);
+            io.sockets.emit('user disconnected', socketUser.buildUser(socket));
         });
 
         require('../socket.io/chat.js')(socket, connectedClients);

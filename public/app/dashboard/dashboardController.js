@@ -6,18 +6,18 @@ app.controller("DashboardController", function ($scope, lodash) {
     vm.usersOnline;
     vm.peopleIAmChatting = [];
     vm.me;
-    
-    
-    var init = function(){
+
+
+    var init = function () {
         var warning = true;
-window.onbeforeunload = function() { 
-  if (warning) {
-    return "You will be disconnected from your partners if you navigate away from this page";
-  }
-}
+        window.onbeforeunload = function () {
+            if (warning) {
+                return "You will be disconnected from your partners if you navigate away from this page";
+            }
+        }
 
     }
-    
+
     init();
 
 
