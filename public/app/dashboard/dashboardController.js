@@ -79,9 +79,16 @@ app.controller("DashboardController", function ($scope, lodash) {
                     addClass: 'btn btn-primary', text: 'Yes, I do', onClick: function ($noty) {
 
                         $noty.close();
-
+                      
                         socket.emit("accepted chat invitation", userWhoInvited.socketId);
-                        vm.isTextChatBoxVisible = true;
+                        
+                          
+                        if (lodash.find(vm.peopleIAmChatting, { id: userWhoInvited.id }) != null) {
+                            return false;
+                        }
+
+                        
+                        //vm.isTextChatBoxVisible = true;
                         vm.peopleIAmChatting.push(userWhoInvited);
                         $scope.$apply();
 
@@ -97,24 +104,16 @@ app.controller("DashboardController", function ($scope, lodash) {
             ]
         });
 
-
-
-        // var anwser = confirm(userWhoInvited.name + " has invited you to a private text chat, do you want to accept?");
-        // if (anwser === true) {
-        //     socket.emit("accepted chat invitation", userWhoInvited.socketId);
-
-        //     vm.isTextChatBoxVisible = true;
-        //     vm.peopleIAmChatting.push(userWhoInvited);
-        // } else {
-        //     socket.emit("recused chat invitation", userWhoInvited.socketId);
-        // }
-        // $scope.$apply();
     });
 
     socket.on("accepted chat invitation", function (userInvited) {
-        //abrir janela de conversação
-        //alert(userInvited.name + " has accepted your chat invitation");
-        vm.isTextChatBoxVisible = true;
+
+        //vm.isTextChatBoxVisible = true;
+
+        if (lodash.find(vm.peopleIAmChatting, { id: userInvited.id }) != null) {
+            return false;
+        }
+
         vm.peopleIAmChatting.push(userInvited);
         $scope.$apply();
     });
@@ -141,8 +140,19 @@ app.controller("DashboardController", function ($scope, lodash) {
 
     socket.on("received chat message", function (data) {
         //abrir janela de conversação
-        var partner = lodash.find(vm.peopleIAmChatting, { socketId: data.socketSenderId });
+        var partner = lodash.find(vm.peopleIAmChatting, { id: data.partner.id });
         partner.receiveMessage(data.message);
+        $scope.$apply();
+    });
+
+    vm.leaveChatRoom = function (partner) {
+        lodash.remove(vm.peopleIAmChatting, { id: partner.id });
+        socket.emit("left chat room", partner.socketId);
+    }
+
+    socket.on("left chat room", function (data) {
+        var partner = lodash.find(vm.peopleIAmChatting, { id: data.id });
+        partner.leftRoom();
         $scope.$apply();
     });
 })

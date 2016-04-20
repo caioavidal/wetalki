@@ -3,10 +3,10 @@ block content
     users-online-box(data-show="vm.isUsersOnlineBoxVisible",ng-if="vm.isUsersOnlineBoxVisible", data-users-online="vm.usersOnline", invite-to-chat="vm.inviteToChat")
     
     
-    text-chat-box(data-show="vm.isTextChatBoxVisible",
-                data-partner="user",
+    text-chat-box(
+                data-partner="partner",
                 data-me="vm.me",
-                data-ng-if="vm.isTextChatBoxVisible", 
                 data-send-message="vm.sendChatMessage",
-                data-ng-repeat="user in vm.peopleIAmChatting")
+                data-leave-chat-room="vm.leaveChatRoom",
+                data-ng-repeat="partner in vm.peopleIAmChatting track by partner.id")
     

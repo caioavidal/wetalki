@@ -3,9 +3,9 @@
         return {
             restrict: 'E',
             scope: {
-                show: "=",
                 partner: "=",
                 sendMessage: "&",
+                leaveChatRoom: "&",
                 me: '='
             },
             templateUrl: 'app/dashboard/directives/chat/partials/directChatBox.html',
@@ -22,6 +22,7 @@
 
         vm.contacts = [];
         vm.messages = [];
+        vm.hasPartnerLeftRoom = false;
 
 
         function init() {
@@ -30,6 +31,10 @@
         }
 
         vm.sendMsg = function (message, socketTargerId) {
+            if (message == null || message.trim() == '') {
+                return false;
+            }
+
             vm.message = '';
             vm.sendMessage()(message, socketTargerId);
 
@@ -41,12 +46,15 @@
         }
 
         vm.partner.receiveMessage = function (message) {
+
+            vm.hasPartnerLeftRoom = false;
+            
             vm.messages.push({
                 messageText: message,
                 fromPartner: true,
                 time: moment().format('DD MMM h:mm a')
             });
-            
+
             $(".box-body").scrollTop(999999);
         }
 
@@ -56,6 +64,15 @@
                 $event.preventDefault();
                 return;
             }
+        }
+
+        vm.leaveRoom = function (partner) {
+           
+            vm.leaveChatRoom()(partner);
+        }
+
+        vm.partner.leftRoom = function () {
+            vm.hasPartnerLeftRoom = true;
         }
 
 
