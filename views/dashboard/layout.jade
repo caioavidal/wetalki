@@ -9,21 +9,20 @@ head
   // Bootstrap 3.3.6
   link(rel='stylesheet', href='/bower_components/bootstrap/dist/css/bootstrap.min.css')
   // Font Awesome
-  link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css')
+  link(rel='stylesheet', href='/bower_components/font-awesome/css/font-awesome.min.css')
   // Ionicons
-  link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css')
+  link(rel='stylesheet', href='/bower_components/ionicons/css/ionicons.min.css')
   // Theme style
-  link(rel="stylesheet", href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css")
- 
-
   link(rel='stylesheet', href='/template/adminLTE/css/AdminLTE.css')
   link(rel='stylesheet', href='/template/adminLTE/css/skins/skin-blue.min.css')
   
-  link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.1/animate.min.css')
+  link(rel='stylesheet', href='/bower_components/animate.css/animate.min.css')
+  link(rel="stylesheet", href='/bower_components/angular-resizable/angular-resizable.min.css')
+  link(rel="stylesheet", href='/bower_components/flag-icon-css/css/flag-icon.min.css')
   
   script.
     (function(){
-      if (!window.sessionStorage.token && !window.sessionStorage.user) {
+      if (!window.localStorage.token && !window.localStorage.user) {
         location.href = '/';
         return false;
       }
@@ -207,7 +206,7 @@ body.hold-transition.skin-blue.sidebar-mini.sidebar-collapse(data-ng-controller=
       // /.sidebar-menu
     // /.sidebar
   // Content Wrapper. Contains page content
-  .content-wrapper(style="padding:5px")
+  .content-wrapper
     block content
     // Content Header (Page header)
    
@@ -295,7 +294,9 @@ script(src="/bower_components/angular-dragdrop/src/angular-dragdrop.min.js")
 script(src='/bower_components/noty/js/noty/packaged/jquery.noty.packaged.min.js')
 script(src="/bower_components/socket.io-client/socket.io.js")
 script(src='/bower_components/ng-lodash/build/ng-lodash.min.js')
-script(src='/bower_components/moment/moment.js')
+script(src='/bower_components/angular-resizable/angular-resizable.min.js')
+script(src='/bower_components/moment/min/moment.min.js')
+
 
 
 
@@ -308,5 +309,7 @@ script(src='/app/app.js')
 script(src='/app/dashboard/dashboardController.js')
 script(src='/app/dashboard/directives/usersOnline/usersOnlineBoxDirective.js')
 script(src='/app/dashboard/directives/chat/textChatBox.js')
+script(src='/app/services/socket.js')
+script(src='/app/services/noty.js')
 
 

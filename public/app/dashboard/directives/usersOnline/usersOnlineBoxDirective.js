@@ -5,7 +5,8 @@
             scope: {
                 show: "=",
                 usersOnline: "=",
-                inviteToChat: '&'
+                inviteToChat: '&',
+                draggableOption: "="
             },
             templateUrl: 'app/dashboard/directives/usersOnline/partials/usersOnlineBox.html',
             controller: controller,
@@ -19,7 +20,14 @@
 
         var vm = this;
 
-        vm.chat = function (socketId) {
+        vm.chat = chat;
+        vm.sortType = 'name'; // set the default sort type
+        vm.sortReverse = false;  // set the default sort order
+        vm.searchUsers = '';     // set the default search/filter term
+
+
+
+        function chat(socketId) {
             vm.inviteToChat()(socketId);
         };
     };

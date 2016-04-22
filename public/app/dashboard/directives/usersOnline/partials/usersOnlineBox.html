@@ -1,34 +1,55 @@
-
-<div style="width:450px;" class="box box-info" data-drag="true" jqyoui-draggable >
+<div style="width:500px;left:25%;position:relative" class="box box-info" data-drag="true" data-jqyoui-draggable data-jqyoui-options="vm.draggableOption"
+  data-resizable data-r-directions="['right']" data-r-flex="false">
   <div style="cursor:move" class="box-header with-border">
     <h3 class="box-title">Online Users</h3>
     <div class="box-tools pull-right">
       <button type="button" data-widget="collapse" class="btn btn-box-tool"><i class="fa fa-minus"></i></button>
-      <button ng-click="vm.show = false;" type="button"  class="btn btn-box-tool"><i class="fa fa-times"></i></button>
+      <button ng-click="vm.show = false;" type="button" class="btn btn-box-tool"><i class="fa fa-times"></i></button>
     </div>
   </div>
   <!-- /.box-header-->
   <div class="box-body">
     <div class="table-responsive">
+      <form>
+        <div class="form-group">
+          <div class="input-group">
+            <div class="input-group-addon"><i class="fa fa-search"></i></div>
+            <input type="text" class="form-control" placeholder="Search" ng-model="vm.searchUsers">
+          </div>
+        </div>
+      </form>
       <table class="table no-margin">
         <thead>
           <tr>
             <th></th>
-            <th>Name</th>
+            <th>
+               <a href="#" ng-click="vm.sortType = 'name'; vm.sortReverse = !vm.sortReverse">Name
+              <span ng-show="vm.sortType == 'name' && !vm.sortReverse" class="fa fa-caret-down"></span>
+            <span ng-show="vm.sortType == 'name' && vm.sortReverse" class="fa fa-caret-up"></span>
+              
+              
+            </th>
             <th>Learn</th>
             <th>Speak</th>
             <th>Status</th>
             <th>Chat</th>
+            <th>
+              <a href="#" ng-click="vm.sortType = 'country'; vm.sortReverse = !vm.sortReverse">Country
+              <span ng-show="vm.sortType == 'country' && !vm.sortReverse" class="fa fa-caret-down"></span>
+            <span ng-show="vm.sortType == 'country' && vm.sortReverse" class="fa fa-caret-up"></span>
+          </a>
+            </th>
           </tr>
         </thead>
         <tbody>
-          <tr data-ng-repeat="user in vm.usersOnline">
+          <tr data-ng-repeat="user in vm.usersOnline | orderBy:vm.sortType:vm.sortReverse | filter:vm.searchUsers">
             <td><i class="fa fa-mars" style="color:#009FFF"></td>
             <td><a href="#"> {{::user.name}}</a></td>
             <td style="-o-text-overflow: ellipsis;text-overflow:ellipsis;overflow:hidden;white-space:nowrap;width:37px"><span data-toggle="tooltip" data-placement="top" title="English, Portuguese, Spanish, French, Arabic, Koren" >English</span></td>
             <td>Portuguese</td>
             <td> <span class="label label-success">Online</span></td>
             <td><a href="#" data-ng-click="vm.chat(user.socketId);">Chat</a></td>
+            <td><span class="flag-icon flag-icon-ca"></span> Canada</td>
           </tr>
          
         </tbody>

@@ -39,8 +39,8 @@ $(function () {
         user.signUp()
             .done(function (data) {
                 $(".signup-modal .error-container").hide();
-                window.sessionStorage.token = data.token;
-                window.sessionStorage.user = data.user;
+                window.localStorage.token = data.token;
+                window.localStorage.user = JSON.stringify(data.user);
                 top.location.href= '/dashboard';
             })
             .fail(function (data) {
@@ -58,6 +58,11 @@ $(function () {
             });
 
     });
+    
+    $("form").submit(function(e){
+    e.preventDefault();
+  });
+    
 
     $("#btnSignIn").click(function () {
 
@@ -72,8 +77,8 @@ $(function () {
         user.signIn()
             .done(function (data) {
                 $(".login-modal .error-container").hide();
-                window.sessionStorage.token = data.token;
-                window.sessionStorage.user = data.user;
+                window.localStorage.token = data.token;
+                window.localStorage.user = JSON.stringify(data.user);
                 top.location.href= '/dashboard';
             })
             .fail(function (data) {

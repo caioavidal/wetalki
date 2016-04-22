@@ -1,12 +1,14 @@
 extends layout
 block content
-    users-online-box(data-show="vm.isUsersOnlineBoxVisible",ng-if="vm.isUsersOnlineBoxVisible", data-users-online="vm.usersOnline", invite-to-chat="vm.inviteToChat")
-    
+    users-online-box(data-show="vm.isUsersOnlineBoxVisible",ng-if="vm.isUsersOnlineBoxVisible", data-users-online="vm.usersOnline", invite-to-chat="vm.inviteToChat",
+    data-draggable-option="vm.draggableOption")
     
     text-chat-box(
                 data-partner="partner",
                 data-me="vm.me",
                 data-send-message="vm.sendChatMessage",
                 data-leave-chat-room="vm.leaveChatRoom",
-                data-ng-repeat="partner in vm.peopleIAmChatting track by partner.id")
-    
+                data-ng-repeat="partner in vm.peopleIAmChatting track by partner.id"
+           
+                )
+                

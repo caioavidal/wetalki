@@ -1,8 +1,10 @@
 <!-- DIRECT CHAT SUCCESS -->
-{{vm.partner}}
-<div class="box box-success direct-chat direct-chat-success" style="width:300px" data-drag="true" jqyoui-draggable>
+<div class="box box-success direct-chat direct-chat-success" style="width:300px;position:absolute" data-drag="true" jqyoui-draggable
+data-resizable 
+data-r-directions="['right']" 
+data-r-flex="false">
     <div class="box-header with-border" style="cursor:move">
-        <h3 class="box-title">Chat with {{vm.partner.name}}</h3>
+        <h3 class="box-title" style="font-size:14px">Chat with {{vm.partner.name}}</h3>
 
         <div class="box-tools pull-right">
             <!--<span data-toggle="tooltip" title="3 New Messages" class="badge bg-green">3</span>-->
@@ -11,9 +13,9 @@
             <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="Contacts" data-widget="chat-pane-toggle">
                   <i class="fa fa-comments"></i></button>
                   
-           <button ng-if="vm.hasPartnerLeftRoom === true" type="button" ng-click="vm.leaveRoom(vm.partner)" class="btn btn-box-tool"><i class="fa fa-times"></i></button>
+            <button ng-if="vm.hasPartnerLeftRoom === true" type="button" ng-click="vm.leaveRoom(vm.partner)" class="btn btn-box-tool"><i class="fa fa-times"></i></button>
             <button type="button" ng-if="vm.hasPartnerLeftRoom === false" data-toggle="modal"
-             data-target="#modalLeaveRoomConfirmation" class="btn btn-box-tool"><i class="fa fa-times"></i></button>
+             data-target="#modalLeaveRoomConfirmation" ng-click="vm.partner.leaving = true"  class="btn btn-box-tool"><i class="fa fa-times"></i></button>
         </div>
     </div>
     <!-- /.box-header -->
@@ -33,7 +35,7 @@
                 <!-- /.direct-chat-info -->
                 <img class="direct-chat-img" src="/template/adminLTE/img/nophoto.png" alt="Message User Image">
                 <!-- /.direct-chat-img -->
-                <div class="direct-chat-text">
+                <div class="direct-chat-text" style="word-wrap: break-word;">
                     {{::message.messageText}}
                 </div>
                 <!-- /.direct-chat-text -->
@@ -87,11 +89,11 @@
 <!--/.direct-chat -->
 
 
-<div class="modal"  id="modalLeaveRoomConfirmation" style="z-index:9999999999" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+<div class="modal" ng-if="vm.partner.leaving === true"  id="modalLeaveRoomConfirmation" style="z-index:9999999999" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog animated bounceIn">
     <div class="modal-content">
       <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <button type="button" ng-click="vm.partner.leaving = false" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         <h4 class="modal-title">You are going to leave the chat</h4>
       </div>
       <div class="modal-body">
@@ -99,7 +101,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-ng-click="vm.leaveRoom(vm.partner)" data-dismiss="modal">Yes, I do</button>
-        <button type="button" class="btn btn-danger" data-dismiss="modal">No, I don't</button>
+        <button type="button" class="btn btn-danger" ng-click="vm.partner.leaving = false" data-dismiss="modal">No, I don't</button>
       </div>
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
